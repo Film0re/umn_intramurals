@@ -47,6 +47,7 @@ const login = async () => {
   });
 
   if (error) {
+    console.log(error);
     errorMsg.value = error.message;
   } else {
     router.push("/profile");
