@@ -1,19 +1,16 @@
-export default defineNuxtRouteMiddleware(() => {
+export default defineNuxtRouteMiddleware(async () => {
     const user = useSupabaseUser();
-    const router = useRouter();
+    const supabase = useSupabaseClient();
+
+    // Call RPC to check if user is admin
+    let { data, error } = await supabase.rpc('is_admin');
+    if (error) {
+        console.error(error);
+    }
+
     // If the user is not logged in, redirect to home page
-    if (!user) {
+    if (data !== true) {
+        console.log('no user');
         return navigateTo('/');
     }
-
-    // If the user is logged in but not an admin, redirect to home page
-    if (user && user.user_metadata && !user.user_metadata.is_admin) {
-        return navigateTo('/');
-    }
-
-    // If the user does not have a user_metadata object or is_admin property, redirect to home page
-    if (user && (!user.user_metadata || !user.user_metadata.is_admin)) {
-        return navigateTo('/');
-    }
-
 });
