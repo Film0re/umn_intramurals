@@ -11,10 +11,8 @@ export default defineNuxtConfig({
   modules: [
     'nuxt-primevue',
     '@nuxtjs/supabase',
+    '@vueuse/nuxt'
   ],
-  primevue: {
-
-  },
 
   supabase: {
     url: process.env.NUXT_PUBLIC_SUPABASE_URL,

@@ -13,10 +13,6 @@
 </template>
 
 <script setup>
-import InputText from 'primevue/inputtext';
-import Password from 'primevue/password';
-import Button from 'primevue/button';
-
 const client = useSupabaseClient();
 const email = ref('');
 const password = ref(null);
