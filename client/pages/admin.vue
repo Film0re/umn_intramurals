@@ -47,13 +47,40 @@ const toast = useToast();
 
 onMounted(() => {
   getMatches();
+  getTeams();
 });
 
+
+const getTeams = async () => {
+  const { data, error } = await 
+  client.from("teams")
+  .select(`
+  *,
+  team_players (
+    player: players (
+      name,
+      match_data: match_data (
+        champions_killed,
+        bait_pings
+      )
+    )
+  )
+  `)
+  .eq("season", 5);
+
+  if (error) {
+    console.log(error);
+  } else {
+    console.log(data);
+  }
+};
 
 
 // TODO: Filter only .rofl files
 const getMatches = async () => {
-  const { data, error } = await client.from("matches").select("*");
+  const { data, error } = await 
+  client.from("matches")
+  .select("*");
 
   if (error) {
     console.log(error);

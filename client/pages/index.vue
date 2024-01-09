@@ -1,47 +1,46 @@
 <template>
   <div>
-    <DataTable
-      :value="matches"
-      :paginator="true"
-      :rows="10"
-      :rowsPerPageOptions="[10, 25, 50]"
-      :sortField="'winPercentage'"
-      :sortOrder="-1"
-    >
-    <template #header="slotProps">
-      <div>
-        Season
+    <DataTable :value="matches" :rows="10" :sortField="'rank'" :sortOrder="1">
+      <template #header="slotProps">
         <div>
-          <span>
-            <Dropdown
-              :options="seasons"
-              v-model="season"
-              @change="season = $event.value"
-            />
-          </span>
+          Regular Season
+          <div>
+            <span>
+              <Dropdown
+                :options="seasons"
+                v-model="season"
+                @change="season = $event.value"
+              />
+            </span>
+          </div>
         </div>
-      </div>
-    </template>
-
-      <Column field="team_name" header="Name"></Column>
+      </template>
+      <Column field="rank" header="Rank" :sortable="false"></Column>
+      <Column field="name" header="Name"></Column>
       <Column field="wins" header="Wins"></Column>
-      <Column field="losses" header="Losses"></Column>
+      <Column field="games_played" header="Games Played"></Column>
+
       <Column field="winPercentage" header="Win Percentage"></Column>
     </DataTable>
+
+ 
   </div>
 </template>
 
 <script setup>
 
+
+
 const client = useSupabaseClient();
 const matches = ref([]);
-const season = ref(4);
-const seasons = ref([4,5]);
-const isPlayoffs = ref(false);  
+const season = ref(5);
+const seasons = ref([4, 5]);
+const isPlayoffs = ref(false);
 
 // Initial load
 onMounted(async () => {
   await getTeams();
+  await getOptions();
 });
 
 // Watch for changes
@@ -53,20 +52,41 @@ const getTeams = async () => {
   // Grab all teams for the selected season
   const { data, error } = await client
     .from("teams")
-    .select(`*`)
-    .eq("season", season.value)
+    .select(
+      `*
+    `
+    )
+    .eq("season", season.value);
 
   if (error) {
     console.log(error);
   } else {
-    matches.value = data.map(team => ({
+    matches.value = data.map((team) => ({
       ...team,
-      winPercentage: ((team.wins / (team.wins + team.losses)) * 100).toFixed(0)
+      winPercentage: ((team.wins / team.games_played) * 100).toFixed(2),
     }));
     console.log(matches.value);
   }
 };
 
+const getOptions = async () => {
+  // Grab all teams for the selected season
+  const { data, error } = await client.from("teams").select(`season`);
 
+  if (error) {
+    console.log(error);
+  } else {
+    // Ugly hack to get unique seasons but it works :\
+    seasons.value = [...new Set(data.map((season) => season.season))];
 
+    console.log(seasons.value);
+  }
+};
 </script>
+
+<style scoped>
+/* Add the following style to highlight the winning team with a green border */
+.winner {
+  border: 2px solid var(--pink-600);
+}
+</style>
