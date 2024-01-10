@@ -9,11 +9,11 @@
   >
     <TabView>
       <TabPanel header="Player Stats">
-        <DataTable 
-        :value="player_averages"
-        :paginator="true"
-        :rows="10"
-        :rowsPerPageOptions="[10, 25, 50]"
+        <DataTable
+          :value="player_averages"
+          :paginator="true"
+          :rows="10"
+          :rowsPerPageOptions="[10, 25, 50]"
         >
           <template #header>
             <div

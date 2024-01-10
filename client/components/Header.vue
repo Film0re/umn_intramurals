@@ -1,7 +1,7 @@
 <template>
   <div>
     <div v-if="user">
-        <Button label="Logout" @click="logout" />
+      <Button label="Logout" @click="logout" />
     </div>
   </div>
 </template>
@@ -14,10 +14,10 @@ const router = useRouter();
 
 const logout = async () => {
   const { error } = await client.auth.signOut();
-    if (error) {
-        console.log(error);
-        return;
-    }
+  if (error) {
+    console.log(error);
+    return;
+  }
 
   router.push("/");
 };
@@ -25,6 +25,4 @@ const logout = async () => {
 const login = async () => {
   router.push("/login");
 };
-
-
 </script>

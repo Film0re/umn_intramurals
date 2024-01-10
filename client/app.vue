@@ -2,13 +2,11 @@
   <div class="center">
     <Header />
     <NuxtPage />
+    <PageFooter />
   </div>
- 
 </template>
 
-<script setup>
-
-</script>
+<script setup></script>
 
 <style scoped>
 .center {
@@ -16,5 +14,4 @@
   flex-direction: column;
   align-items: center;
 }
-
 </style>
