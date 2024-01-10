@@ -61,7 +61,18 @@
           :rows="10"
           :rowsPerPageOptions="[10, 25, 50]"
         >
-          <Column field="match_id" header="Match ID"></Column>
+          <Column field="match_id" header="Match ID">
+            <template #body="slotProps">
+              <NuxtLink
+                :to="{
+                  name: 'matches-id',
+                  params: { id: slotProps.data.match_id },
+                }"
+              >
+                {{ slotProps.data.match_id }}
+              </NuxtLink>
+            </template>
+          </Column>
           <Column field="game_version" header="Match Date"></Column>
           <Column field="game_mode" header="Game Mode"></Column>
         </DataTable>
@@ -137,7 +148,7 @@ const stats_to_not_average = ref([
 ]);
 
 const season = ref(5);
-const seasons = ref([5]);
+const seasons = ref([5]); 
 
 onMounted(async () => {
   matches.value = await getMatches();
@@ -147,6 +158,10 @@ onMounted(async () => {
   seasons.value = options.seasons;
   stat_options.value = options.stat_options;
   stats_to_not_average.value = options.stats_to_not_average;
+
+
+
+
 });
 
 watch(season, async () => {
@@ -255,11 +270,14 @@ const getTeams = async () => {
 
 // TODO: Filter only .rofl files
 const getMatches = async () => {
-  const { data, error } = await client.from("matches").select(`*,
+  const { data, error } = 
+  await client
+  .from("matches")
+  .select(`*,
   match_data (
     *
   )
-  `);
+  `)
 
   if (error) {
     console.log(error);

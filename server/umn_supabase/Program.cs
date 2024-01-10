@@ -548,7 +548,8 @@ public class Program
             was_afk = bool.TryParse(playerStats.WasAfk, out bool was_afk) ? was_afk : false,
             was_afk_after_failed_surrender = bool.TryParse(playerStats.WasAfkAfterFailedSurrender, out bool was_afk_after_failed_surrender) ? was_afk_after_failed_surrender : false,
             was_leaver = bool.TryParse(playerStats.WasLeaver, out bool was_leaver) ? was_leaver : false,
-            win = bool.TryParse(playerStats.Win, out bool win) ? win : false,
+            win = (playerStats.Win == "Win") ? true : ((playerStats.Win == "Fail") ? false : false),
+
             // New stats from latest Fraxiinus update
             all_in_pings = int.TryParse(playerStats.AllInPings, out int all_in_pings) ? all_in_pings : 0,
             assist_me_pings = int.TryParse(playerStats.AssistMePings, out int assist_me_pings) ? assist_me_pings : 0,
