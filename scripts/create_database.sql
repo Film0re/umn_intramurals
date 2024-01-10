@@ -4,6 +4,7 @@ CREATE EXTENSION IF NOT EXISTS "uuid-ossp";
 CREATE TABLE user_profiles (
                         id uuid not null REFERENCES auth.users on delete cascade,
                         username TEXT UNIQUE,
+                        created_at TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP,
                         PRIMARY KEY (id)
     -- Add other user-related fields as needed
 );
@@ -39,6 +40,7 @@ CREATE TABLE teams (
                        wins INT DEFAULT 0,
                        games_played INT DEFAULT 0,
                        rank INT DEFAULT 0,
+                       created_at TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP,
                        CONSTRAINT unique_team_name_per_season UNIQUE (name, season)
     -- Add other team-related fields as needed
 );
@@ -50,7 +52,7 @@ CREATE TABLE players (
                          name TEXT,
                          user_id UUID REFERENCES users(id),
                          team_id UUID REFERENCES teams(team_id),
-                         
+                         created_at TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP,
     -- Add other player-related fields as needed
                          CONSTRAINT unique_user_team_pair UNIQUE (player_id, team_id)
 );
@@ -63,7 +65,8 @@ CREATE TABLE matches (
                          is_playoffs BOOLEAN DEFAULT FALSE,
                          team1_id UUID REFERENCES teams(team_id),
                          team2_id UUID REFERENCES teams(team_id),
-                         winner_team_id UUID REFERENCES teams(team_id)
+                         winner_team_id UUID REFERENCES teams(team_id),
+                         created_at TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP,
     -- Add other match-related fields as needed
 );
 
@@ -260,6 +263,7 @@ CREATE TABLE match_data (
                             player_subteam INT,
                             player_subteam_placement INT,
 
+                            created_at TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP,
                             PRIMARY KEY (match_id, player_id)
 );
 
@@ -267,6 +271,7 @@ CREATE TABLE match_data (
 CREATE TABLE team_players (
                                 team_id UUID REFERENCES teams(team_id),
                                 player_id TEXT REFERENCES players(player_id),
+                                created_at TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP,
                                 PRIMARY KEY (team_id, player_id)
 );
 
