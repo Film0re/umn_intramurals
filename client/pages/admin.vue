@@ -9,33 +9,43 @@
   >
     <TabView>
       <TabPanel header="Player Stats">
-        <DataTable :value="player_averages">
+        <DataTable 
+        :value="player_averages"
+        :paginator="true"
+        :rows="10"
+        :rowsPerPageOptions="[10, 25, 50]"
+        >
           <template #header>
-            <div style = "display: flex; justify-content: center ; align-items: center;">
-                <div class="flex-column">
-                  <label for="season">Season</label>
-                  <Dropdown
-                    v-model="season"
-                    :options="seasons"
-                    :placeholder="`Select Season`"
-                    :onChange="getTeams"
-                  ></Dropdown>
-                </div>
+            <div
+              style="
+                display: flex;
+                justify-content: center;
+                align-items: center;
+              "
+            >
+              <div class="flex-column">
+                <label for="season">Season</label>
+                <Dropdown
+                  v-model="season"
+                  :options="seasons"
+                  :placeholder="`Select Season`"
+                  :onChange="getTeams"
+                ></Dropdown>
+              </div>
 
-                <div class="flex-column">
-                  <label for="options">Options</label>
-                  <MultiSelect
-                    v-model="selectedOptions"
-                    :options="options"
-                    :optionLabel="convertFieldNameToLabel"
-                    :placeholder="`Select ${options.length} options`"
-                    :maxSelectedLabels="3"
-                    :filter="true"
-                    :showSelectAll="true"
-                    :onChange="getTeams"
-                  ></MultiSelect>
-                </div>
-
+              <div class="flex-column">
+                <label for="options">Options</label>
+                <MultiSelect
+                  v-model="selectedOptions"
+                  :options="options"
+                  :optionLabel="convertFieldNameToLabel"
+                  :placeholder="`Select ${options.length} options`"
+                  :maxSelectedLabels="3"
+                  :filter="true"
+                  :showSelectAll="true"
+                  :onChange="getTeams"
+                ></MultiSelect>
+              </div>
             </div>
           </template>
 
@@ -307,6 +317,4 @@ const convertTeamToPlayerArray = (team) => {
   flex-direction: column;
   padding-left: 5px;
 }
-
-
 </style>
