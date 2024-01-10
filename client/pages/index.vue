@@ -1,6 +1,6 @@
 <template>
-  <div>
-    <DataTable :value="matches" :rows="10" :sortField="'rank'" :sortOrder="1">
+  <div class="full-height">
+    <DataTable :value="teams" :rows="10" :sortField="'rank'" :sortOrder="1">
       <template #header="slotProps">
         <div>
           Regular Season
@@ -22,25 +22,20 @@
 
       <Column field="winPercentage" header="Win Percentage"></Column>
     </DataTable>
-
- 
   </div>
 </template>
 
 <script setup>
-
-
-
 const client = useSupabaseClient();
-const matches = ref([]);
+const teams = ref([]);
 const season = ref(5);
 const seasons = ref([4, 5]);
 const isPlayoffs = ref(false);
 
 // Initial load
 onMounted(async () => {
-  await getTeams();
-  await getOptions();
+  teams.value = await getTeams();
+  seasons.value = await getOptions();
 });
 
 // Watch for changes
@@ -61,25 +56,26 @@ const getTeams = async () => {
   if (error) {
     console.log(error);
   } else {
-    matches.value = data.map((team) => ({
+    return data.map((team) => ({
       ...team,
       winPercentage: ((team.wins / team.games_played) * 100).toFixed(2),
     }));
-    console.log(matches.value);
   }
 };
 
 const getOptions = async () => {
   // Grab all teams for the selected season
-  const { data, error } = await client.from("teams").select(`season`);
+  const { data, error } = 
+  await client
+  .from("teams")
+  .select(`season`)
+  .order("season", { ascending: false })
 
   if (error) {
     console.log(error);
   } else {
     // Ugly hack to get unique seasons but it works :\
-    seasons.value = [...new Set(data.map((season) => season.season))];
-
-    console.log(seasons.value);
+    return [...new Set(data.map((season) => season.season))];
   }
 };
 </script>
@@ -88,5 +84,13 @@ const getOptions = async () => {
 /* Add the following style to highlight the winning team with a green border */
 .winner {
   border: 2px solid var(--pink-600);
+}
+
+.full-height {
+  width: clamp(300px, 100%, 900px);
+  margin: 0 auto;
+  padding: 1rem;
+  text-align: center;
+  height: 100%;
 }
 </style>

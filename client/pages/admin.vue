@@ -1,12 +1,5 @@
 <template>
-  <div
-    style="
-      width: clamp(300px, 100%, 1000px);
-      margin: 0 auto;
-      padding: 1rem;
-      text-align: center;
-    "
-  >
+  <div class="full-height">
     <TabView>
       <TabPanel header="Player Stats">
         <DataTable
@@ -128,16 +121,6 @@ const selectedOptions = ref([
   "assists",
   "gold_earned",
 ]);
-
-const season = ref(5);
-const seasons = ref([]);
-
-onMounted(() => {
-  getMatches();
-  getTeams();
-  getOptions();
-});
-
 const stats_to_not_average = ref([
   "match_id",
   "match_data",
@@ -152,6 +135,22 @@ const stats_to_not_average = ref([
   "largest_multi_kill",
   "largest_critical_strike",
 ]);
+
+const season = ref(5);
+const seasons = ref([]);
+
+onMounted(async () => {
+  matches.value = await getMatches();
+  player_averages.value = await getTeams();
+  const { seasons, options, stats_to_not_average } = await getOptions();
+  seasons.value = seasons;
+  options.value = options;
+  stats_to_not_average.value = stats_to_not_average;
+});
+
+watch(season, async () => {
+  player_averages.value = await getTeams();
+});
 
 const convertFieldNameToLabel = (fieldName) => {
   const label = fieldName
@@ -169,11 +168,11 @@ const getOptions = async () => {
   if (error) {
     console.log(error);
   } else {
-    options.value = data.stat_options;
-    stats_to_not_average.value = data.stats_to_not_average;
-    seasons.value = data.seasons;
-
-    console.log(options.value);
+    return {
+      seasons: data.seasons,
+      options: data.options,
+      stats_to_not_average: data.stats_to_not_average,
+    };
   }
 };
 
@@ -205,10 +204,6 @@ const getTeams = async () => {
     team_players.value = data.map((team) => {
       return convertTeamToPlayerArray(team);
     });
-
-    console.log("HI");
-    console.log(team_players.value);
-    console.log(teams.value);
 
     // Extract player names and averages
     const playerAverages = team_players.value.reduce((result, team) => {
@@ -256,7 +251,7 @@ const getTeams = async () => {
 
     console.log(playerAverages);
 
-    player_averages.value = playerAverages;
+    return playerAverages;
   }
 };
 
@@ -267,7 +262,7 @@ const getMatches = async () => {
   if (error) {
     console.log(error);
   } else {
-    matches.value = data;
+    return data;
   }
 };
 
@@ -316,5 +311,13 @@ const convertTeamToPlayerArray = (team) => {
   display: flex;
   flex-direction: column;
   padding-left: 5px;
+}
+
+.full-height {
+  width: clamp(300px, 100%, 1000px);
+  margin: 0 auto;
+  padding: 1rem;
+  text-align: center;
+  height: 100%;
 }
 </style>
