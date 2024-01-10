@@ -30,9 +30,9 @@
                 <label for="options">Options</label>
                 <MultiSelect
                   v-model="selectedOptions"
-                  :options="options"
+                  :options="stat_options"
                   :optionLabel="convertFieldNameToLabel"
-                  :placeholder="`Select ${options.length} options`"
+                  :placeholder="`Select ${stat_options.length} options`"
                   :maxSelectedLabels="3"
                   :filter="true"
                   :showSelectAll="true"
@@ -109,7 +109,7 @@ const teams = ref([]);
 const team_players = ref([]);
 const player_averages = ref([]);
 
-const options = ref([
+const stat_options = ref([
   "champions_killed",
   "num_deaths",
   "assists",
@@ -137,15 +137,16 @@ const stats_to_not_average = ref([
 ]);
 
 const season = ref(5);
-const seasons = ref([]);
+const seasons = ref([5]);
 
 onMounted(async () => {
   matches.value = await getMatches();
   player_averages.value = await getTeams();
-  const { seasons, options, stats_to_not_average } = await getOptions();
-  seasons.value = seasons;
-  options.value = options;
-  stats_to_not_average.value = stats_to_not_average;
+
+  const options = await getOptions();
+  seasons.value = options.seasons;
+  stat_options.value = options.stat_options;
+  stats_to_not_average.value = options.stats_to_not_average;
 });
 
 watch(season, async () => {
@@ -168,11 +169,8 @@ const getOptions = async () => {
   if (error) {
     console.log(error);
   } else {
-    return {
-      seasons: data.seasons,
-      options: data.options,
-      stats_to_not_average: data.stats_to_not_average,
-    };
+    console.log(data);
+    return data;
   }
 };
 
@@ -257,7 +255,11 @@ const getTeams = async () => {
 
 // TODO: Filter only .rofl files
 const getMatches = async () => {
-  const { data, error } = await client.from("matches").select("*");
+  const { data, error } = await client.from("matches").select(`*,
+  match_data (
+    *
+  )
+  `);
 
   if (error) {
     console.log(error);
