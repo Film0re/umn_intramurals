@@ -15,14 +15,11 @@ const router = useRouter();
 const logout = async () => {
   const { error } = await client.auth.signOut();
   if (error) {
+    // eslint-disable-next-line no-console
     console.log(error);
     return;
   }
 
   router.push("/");
-};
-
-const login = async () => {
-  router.push("/login");
 };
 </script>

@@ -7,9 +7,13 @@
     "dev": "nuxt dev",
     "generate": "nuxt generate",
     "preview": "nuxt preview",
-    "postinstall": "nuxt prepare"
+    "postinstall": "nuxt prepare",
+    "lint" : "eslint --ext .js,.vue --ignore-path .gitignore .",
+    "lintfix" : "eslint --fix --ext .js,.vue --ignore-path .gitignore ."
   },
   "devDependencies": {
+    "@nuxt/eslint-config": "^0.2.0",
+    "@nuxtjs/eslint-module": "^4.1.0",
     "@nuxtjs/supabase": "^1.1.5",
     "eslint": "^8.56.0",
     "nuxt": "^3.9.0",

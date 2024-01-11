@@ -6,7 +6,7 @@
           :value="player_averages"
           :paginator="true"
           :rows="10"
-          :rowsPerPageOptions="[10, 25, 50]"
+          :rows-per-page-options="[10, 25, 50]"
         >
           <template #header>
             <div
@@ -22,8 +22,8 @@
                   v-model="season"
                   :options="seasons"
                   :placeholder="`Select Season`"
-                  :onChange="getTeams"
-                ></Dropdown>
+                  :on-change="getTeams"
+                />
               </div>
 
               <div class="flex-column">
@@ -31,18 +31,18 @@
                 <MultiSelect
                   v-model="selectedOptions"
                   :options="stat_options"
-                  :optionLabel="convertFieldNameToLabel"
+                  :option-label="convertFieldNameToLabel"
                   :placeholder="`Select ${stat_options.length} options`"
-                  :maxSelectedLabels="3"
+                  :max-selected-labels="3"
                   :filter="true"
-                  :showSelectAll="true"
-                  :onChange="getTeams"
-                ></MultiSelect>
+                  :show-select-all="true"
+                  :on-change="getTeams"
+                />
               </div>
             </div>
           </template>
 
-          <Column field="name" header="Name"></Column>
+          <Column field="name" header="Name" />
 
           <Column
             v-for="option in selectedOptions"
@@ -50,7 +50,7 @@
             :field="`averages.${option}`"
             :header="convertFieldNameToLabel(option)"
             sortable
-          ></Column>
+          />
         </DataTable>
       </TabPanel>
 
@@ -59,7 +59,7 @@
           :value="matches"
           :paginator="true"
           :rows="10"
-          :rowsPerPageOptions="[10, 25, 50]"
+          :rows-per-page-options="[10, 25, 50]"
         >
           <Column field="match_id" header="Match ID">
             <template #body="slotProps">
@@ -73,21 +73,23 @@
               </NuxtLink>
             </template>
           </Column>
-          <Column field="game_version" header="Match Date"></Column>
-          <Column field="game_mode" header="Game Mode"></Column>
+          <Column field="game_version" header="Match Date" />
+          <Column field="game_mode" header="Game Mode" />
         </DataTable>
       </TabPanel>
 
       <TabPanel header="Upload">
         <div>
-          <Button type="button" @click="open()">Choose files</Button>
-          <Button type="button" :disabled="!files" @click="reset()"
-            >Reset</Button
-          >
+          <Button type="button" @click="open()">
+            Choose files
+          </Button>
+          <Button type="button" :disabled="!files" @click="reset()">
+            Reset
+          </Button>
 
-          <Button type="button" :disabled="!files" @click="() => upload()"
-            >Upload</Button
-          >
+          <Button type="button" :disabled="!files" @click="() => upload()">
+            Upload
+          </Button>
 
           <template v-if="files">
             <p>
@@ -148,7 +150,7 @@ const stats_to_not_average = ref([
 ]);
 
 const season = ref(5);
-const seasons = ref([5]); 
+const seasons = ref([5]);
 
 onMounted(async () => {
   matches.value = await getMatches();
@@ -158,10 +160,6 @@ onMounted(async () => {
   seasons.value = options.seasons;
   stat_options.value = options.stat_options;
   stats_to_not_average.value = options.stats_to_not_average;
-
-
-
-
 });
 
 watch(season, async () => {
@@ -177,14 +175,14 @@ const convertFieldNameToLabel = (fieldName) => {
   return label;
 };
 
-//Function that will query the database for all of the fields in match_data table
+// Function that will query the database for all of the fields in match_data table
 const getOptions = async () => {
   const { data, error } = await client.from("options").select("*").single();
 
   if (error) {
+    // eslint-disable-next-line no-console
     console.log(error);
   } else {
-    console.log(data);
     return data;
   }
 };
@@ -210,13 +208,12 @@ const getTeams = async () => {
     .eq("season", season.value);
 
   if (error) {
+    // eslint-disable-next-line no-console
     console.log(error);
   } else {
     teams.value = data;
 
-    team_players.value = data.map((team) => {
-      return convertTeamToPlayerArray(team);
-    });
+    team_players.value = data.map((team) => convertTeamToPlayerArray(team));
 
     // Extract player names and averages
     const playerAverages = team_players.value.reduce((result, team) => {
@@ -262,24 +259,20 @@ const getTeams = async () => {
       return result;
     }, []);
 
-    console.log(playerAverages);
-
     return playerAverages;
   }
 };
 
 // TODO: Filter only .rofl files
 const getMatches = async () => {
-  const { data, error } = 
-  await client
-  .from("matches")
-  .select(`*,
+  const { data, error } = await client.from("matches").select(`*,
   match_data (
     *
   )
-  `)
+  `);
 
   if (error) {
+    // eslint-disable-next-line no-console
     console.log(error);
   } else {
     return data;
@@ -316,14 +309,11 @@ const upload = async () => {
   }
 };
 
-const convertTeamToPlayerArray = (team) => {
-  return team.team_players.map((player) => {
-    return {
-      ...player.player,
-      team: team.name,
-    };
-  });
-};
+const convertTeamToPlayerArray = (team) =>
+  team.team_players.map((player) => ({
+    ...player.player,
+    team: team.name,
+  }));
 </script>
 
 <style scoped>

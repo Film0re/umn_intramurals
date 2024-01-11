@@ -1,26 +1,31 @@
 <template>
   <div class="full-height">
-    <DataTable :value="teams" :rows="10" :sortField="'rank'" :sortOrder="1">
-      <template #header="slotProps">
+    <DataTable
+      :value="teams"
+      :rows="10"
+      :sort-field="'rank'"
+      :sort-order="1"
+    >
+      <template #header>
         <div>
           Regular Season
           <div>
             <span>
               <Dropdown
-                :options="seasons"
                 v-model="season"
+                :options="seasons"
                 @change="season = $event.value"
               />
             </span>
           </div>
         </div>
       </template>
-      <Column field="rank" header="Rank" :sortable="false"></Column>
-      <Column field="name" header="Name"></Column>
-      <Column field="wins" header="Wins"></Column>
-      <Column field="games_played" header="Games Played"></Column>
+      <Column field="rank" header="Rank" :sortable="false" />
+      <Column field="name" header="Name" />
+      <Column field="wins" header="Wins" />
+      <Column field="games_played" header="Games Played" />
 
-      <Column field="winPercentage" header="Win Percentage"></Column>
+      <Column field="winPercentage" header="Win Percentage" />
     </DataTable>
   </div>
 </template>
@@ -54,6 +59,7 @@ const getTeams = async () => {
     .eq("season", season.value);
 
   if (error) {
+    // eslint-disable-next-line no-console
     console.log(error);
   } else {
     return data.map((team) => ({
@@ -65,13 +71,13 @@ const getTeams = async () => {
 
 const getOptions = async () => {
   // Grab all teams for the selected season
-  const { data, error } = 
-  await client
-  .from("teams")
-  .select(`season`)
-  .order("season", { ascending: false })
+  const { data, error } = await client
+    .from("teams")
+    .select(`season`)
+    .order("season", { ascending: false });
 
   if (error) {
+    // eslint-disable-next-line no-console
     console.log(error);
   } else {
     // Ugly hack to get unique seasons but it works :\

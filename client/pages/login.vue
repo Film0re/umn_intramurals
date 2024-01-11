@@ -2,8 +2,10 @@
   <div>
     <div class="outer-container">
       <Card>
-        <template #header style="text-align: center">
-          <h1 style="text-align: center">Login</h1>
+        <template #header>
+          <h1 style="text-align: center">
+            Login
+          </h1>
         </template>
 
         <template #content>
@@ -17,9 +19,11 @@
               <Password id="password" v-model="password" />
               <label for="password">Password</label>
             </span>
-            <p v-if="errorMsg" class="danger">{{ errorMsg }}</p>
+            <p v-if="errorMsg" class="danger">
+              {{ errorMsg }}
+            </p>
 
-            <Button label="Login" @click="login" style="margin-top: 1rem" />
+            <Button label="Login" style="margin-top: 1rem" @click="login" />
           </div>
         </template>
       </Card>
@@ -42,6 +46,7 @@ const login = async () => {
   });
 
   if (error) {
+    // eslint-disable-next-line no-console
     console.log(error);
     errorMsg.value = error.message;
   } else {

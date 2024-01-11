@@ -1,6 +1,6 @@
 <template>
   <div class="full-screen">
-    <Header />
+    <PageHeader />
     <NuxtPage />
     <PageFooter />
   </div>

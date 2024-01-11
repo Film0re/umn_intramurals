@@ -7,7 +7,9 @@
     <Password id="password" v-model="password" toggle-mask />
 
     <Button label="Register" @click="register" />
-    <p v-if="errorMsg" class="danger">{{ errorMsg }}</p>
+    <p v-if="errorMsg" class="danger">
+      {{ errorMsg }}
+    </p>
   </div>
 </template>
 
@@ -24,12 +26,10 @@ const register = async () => {
     password: password.value,
   });
 
-  console.log(data);
-
   if (error) {
+    // eslint-disable-next-line no-console
     console.log(error);
     errorMsg.value = error.message;
-    console.log("error: ", error.value);
   } else {
     successMsg.value = "Success! Check your email to confirm your account.";
     errorMsg.value = null;

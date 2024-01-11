@@ -11,7 +11,7 @@ export default defineNuxtConfig({
   modules: [
     'nuxt-primevue',
     '@nuxtjs/supabase',
-    '@vueuse/nuxt'
+    '@vueuse/nuxt',
   ],
 
   supabase: {
@@ -19,6 +19,7 @@ export default defineNuxtConfig({
     key: process.env.NUXT_PUBLIC_SUPABASE_KEY,
     redirect: false,
   },
+
 
   css: ['primevue/resources/themes/lara-dark-pink/theme.css']
 })
