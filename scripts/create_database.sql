@@ -75,7 +75,6 @@ CREATE TABLE matches (
 CREATE TABLE match_data (
                             match_id TEXT REFERENCES matches(match_id),
                             player_id TEXT REFERENCES players(player_id),
-                            intramural_season INT,
                             assists INT,
                             baron_kills INT,
                             barracks_killed INT,
@@ -271,6 +270,7 @@ CREATE TABLE match_data (
 CREATE TABLE team_players (
                                 team_id UUID REFERENCES teams(team_id),
                                 player_id TEXT REFERENCES players(player_id),
+                                intramural_season INT,
                                 created_at TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP,
                                 PRIMARY KEY (team_id, player_id)
 );
