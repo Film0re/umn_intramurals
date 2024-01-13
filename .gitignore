@@ -284,3 +284,5 @@ logs
 server/umn_supabase/APIKeysLocal.cs
 server/replays
 users.jsongit 
+
+*.txt
