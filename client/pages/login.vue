@@ -16,7 +16,7 @@
             </span>
 
             <span class="p-float-label" style="margin-top: 2rem">
-              <Password id="password" v-model="password" />
+              <Password id="password" v-model="password" :feedback="false" />
               <label for="password">Password</label>
             </span>
             <p v-if="errorMsg" class="danger">

@@ -1,6 +1,7 @@
 <template>
   <div class="full-height">
     <DataTable
+      v-if="teams.length > 0"
       :value="teams"
       :rows="10"
       :sort-field="'rank'"
@@ -20,13 +21,15 @@
           </div>
         </div>
       </template>
+
+
       <Column field="rank" header="Rank" :sortable="false" />
       <Column field="name" header="Name" />
       <Column field="wins" header="Wins" />
       <Column field="games_played" header="Games Played" />
-
       <Column field="winPercentage" header="Win Percentage" />
     </DataTable>
+    <ProgressBar v-else mode="indeterminate" style="height: 6px" />
   </div>
 </template>
 
@@ -98,5 +101,6 @@ const getOptions = async () => {
   padding: 1rem;
   text-align: center;
   height: 100%;
+  margin-bottom: auto;
 }
 </style>
