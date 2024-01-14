@@ -1,35 +1,38 @@
 <template>
   <div class="full-height">
-    <DataTable
-      v-if="teams.length > 0"
-      :value="teams"
-      :rows="10"
-      :sort-field="'rank'"
-      :sort-order="1"
-    >
-      <template #header>
-        <div>
-          Regular Season
-          <div>
+    <TabView>
+      <TabPanel header="Regular Season">
+        <DataTable
+          v-if="teams.length > 0"
+          :value="teams"
+          :rows="10"
+          :sort-field="'rank'"
+          :sort-order="1"
+        >
+          <template #header>
             <span>
+              Season:
               <Dropdown
                 v-model="season"
                 :options="seasons"
                 @change="season = $event.value"
               />
             </span>
-          </div>
-        </div>
-      </template>
+          </template>
 
+          <Column field="rank" header="Rank" :sortable="false" />
+          <Column field="name" header="Name" />
+          <Column field="wins" header="Wins" />
+          <Column field="games_played" header="Games Played" />
+          <Column field="winPercentage" header="Win Percentage" />
+        </DataTable>
+        <ProgressBar v-else mode="indeterminate" style="height: 6px" />
+      </TabPanel>
 
-      <Column field="rank" header="Rank" :sortable="false" />
-      <Column field="name" header="Name" />
-      <Column field="wins" header="Wins" />
-      <Column field="games_played" header="Games Played" />
-      <Column field="winPercentage" header="Win Percentage" />
-    </DataTable>
-    <ProgressBar v-else mode="indeterminate" style="height: 6px" />
+      <!-- <TabPanel header="Playoffs">
+
+      </TabPanel> -->
+    </TabView>
   </div>
 </template>
 

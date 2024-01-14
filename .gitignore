@@ -286,3 +286,5 @@ server/replays
 users.jsongit 
 
 *.txt
+
+.vscode
