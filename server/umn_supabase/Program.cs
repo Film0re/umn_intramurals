@@ -62,63 +62,65 @@ public class Program
 
     public static async Task getReplaysAndProcess()
     {
-         // List all replays in the database
-        var replays = await supabase.Storage.From("Replays").List();
-        
+        // List all replays in the queue folder
+        var replays = await supabase.Storage.From("Replays").List("queue");
+
         foreach (var replay in replays)
         {
             Console.WriteLine(replay.Name);
         }
-        
+
         // Task array to store all the tasks
         var tasks = new List<Task>();
-        
-        
+
         // Loop through each replay and download it
         foreach (var replay in replays)
         {
-            
             // Check if the replay has already been downloaded
             if (File.Exists(replayFolder + replay.Name))
             {
                 Console.WriteLine("Replay already downloaded");
                 continue;
             }
-            
+
             // Check if the replay ends with .rofl
             if (!replay.Name.EndsWith(".rofl"))
             {
                 Console.WriteLine("Replay does not end with .rofl");
                 continue;
             }
-            
+
             var replayName = replay.Name;
             var replayId = replay.Id;
             var replayBucketId = replay.BucketId;
-            
+
             Console.WriteLine("Downloading replay: " + replayName);
-            
+
             // Download replay
-            var replayBytes = await supabase.Storage.From("Replays").Download(replayName, (bytes, progress) =>
+            var replayBytes = await supabase.Storage.From("Replays").Download("queue/"+replayName, (bytes, progress) =>
             {
                 Console.WriteLine($"Downloaded {progress}%");
             });
-            
+
             // Save replay to folder
             File.WriteAllBytes(replayFolder + replayName, replayBytes);
-            
-            // Delete replay from database
-            // await supabase.Storage.From(replayBucketId).Remove(replayName);
-            
-            // Add task to task array
-            tasks.Add(processMatch(replayFolder + replayName));
+
+            // Process the match
+            var processResult = await processMatch(replayFolder + replayName);
+
+            if (processResult)
+            {
+                // Move the successfully processed replay to the "processed" folder
+                await supabase.Storage.From("Replays").Move("queue/" + replayName, "processed/" + replayName);
+            }
         }
-        
+
         // Wait for all tasks to finish
         await Task.WhenAll(tasks);
     }
 
-    public static async Task processMatch(string fileName)
+
+    public static async Task<bool> processMatch(string fileName)
     { 
         var replay = await RoflReader.LoadAsync(fileName, loadAll: true);
 
@@ -229,6 +231,7 @@ public class Program
             
         }
         
+        return true;
         Console.WriteLine("Finished processing match: " + fileName);
     }
     
