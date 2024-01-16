@@ -21,9 +21,9 @@
           <label for="options">Options</label>
           <MultiSelect
             v-model="selectedOptions"
-            :options="stat_options"
+            :options="options.stat_options"
             :option-label="convertFieldNameToLabel"
-            :placeholder="`Select ${stat_options.length} options`"
+            :placeholder="`Select ${options.stat_options.length} options`"
             :max-selected-labels="3"
             :filter="true"
             :show-select-all="true"
@@ -49,34 +49,11 @@
 const client = useSupabaseClient();
 const teams = ref([]);
 const team_players = ref([]);
-const player_averages = ref([]);
 const season = ref(5);
 const seasons = ref([5]);
 
 const emit = defineEmits(["loaded"]);
 
-onMounted(async () => {
-  player_averages.value = await getTeams();
-  const options = await getOptions();
-  seasons.value = options.seasons;
-  stat_options.value = options.stat_options;
-  stats_to_not_average.value = options.stats_to_not_average;
-
-  // Emit event to parent component to let it know that the data has loaded
-  // This is used to hide the progress bar
-  emit("loaded");
-});
-
-watch(season, () => {
-  player_averages.value = getTeams();
-});
-
-const stat_options = ref([
-  "champions_killed",
-  "num_deaths",
-  "assists",
-  "gold_earned",
-]);
 const selectedOptions = ref([
   "champions_killed",
   "num_deaths",
@@ -200,6 +177,20 @@ const convertTeamToPlayerArray = (team) =>
     ...player.player,
     team: team.name,
   }));
+
+// Get player averages for the selected season, and watch for changes to the season
+const { data: player_averages } = await useAsyncData(
+  "player_averages",
+  getTeams,
+  {
+    watch: season,
+  }
+);
+const { data: options } = await useAsyncData("options", getOptions);
+
+// Emit event to parent component to let it know that the data has loaded
+
+emit("loaded");
 </script>
 
 <style scoped>

@@ -37,9 +37,8 @@ const client = useSupabaseClient();
 const upload = async () => {
   for (const file of files.value) {
     const { data, error } = await client.storage
-      .from("Replays")
+      .from("Replays/queue")
       .upload(file.name, file);
-
     if (error) {
       toast.add({
         severity: "error",

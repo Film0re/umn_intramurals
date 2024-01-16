@@ -38,21 +38,8 @@
 
 <script setup>
 const client = useSupabaseClient();
-const teams = ref([]);
 const season = ref(5);
-const seasons = ref([4, 5]);
 const isPlayoffs = ref(false);
-
-// Initial load
-onMounted(async () => {
-  teams.value = await getTeams();
-  seasons.value = await getOptions();
-});
-
-// Watch for changes
-watch(season, async () => {
-  await getTeams();
-});
 
 const getTeams = async () => {
   // Grab all teams for the selected season
@@ -90,6 +77,11 @@ const getOptions = async () => {
     return [...new Set(data.map((season) => season.season))];
   }
 };
+
+const { data: teams } = useAsyncData("teams", getTeams, {
+  watch: season,
+});
+const { data: seasons } = useAsyncData("seasons", getOptions);
 </script>
 
 <style scoped>

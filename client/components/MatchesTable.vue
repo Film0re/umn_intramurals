@@ -22,13 +22,7 @@
 
 <script setup>
 const client = useSupabaseClient();
-const matches = ref([]);
 const emit = defineEmits(["loaded"]);
-
-onMounted(async () => {
-  matches.value = await getMatches();
-  emit("loaded");
-});
 
 // TODO: Filter only .rofl files
 const getMatches = async () => {
@@ -51,4 +45,7 @@ const getMatches = async () => {
     return data;
   }
 };
+
+const { data : matches } = useAsyncData("matches", getMatches);
+emit("loaded");
 </script>

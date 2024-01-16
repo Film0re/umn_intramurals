@@ -27,7 +27,7 @@ definePageMeta({
   middleware: ["admin-auth"],
 });
 
-const playersTableLoaded = ref(false);
+const playersTableLoaded = ref(true);
 const matchesTableLoaded = ref(false);
 </script>
 
