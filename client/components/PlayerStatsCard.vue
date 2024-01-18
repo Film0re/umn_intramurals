@@ -4,7 +4,7 @@
       <template #content>
         <div class="opgg-card-content">
           <div class="opgg-card-header">
-            <img class="opgg-champion-icon" :src="`/img/champion/${player.skin}.png`">
+            <img class="opgg-champion-icon" :src="`/img/champion/${player.skin}.png`" alt="Champion icon">
             <div class="opgg-player-info">
               <div class="opgg-player-name">
                 {{ player.name }}
@@ -35,6 +35,7 @@
                   v-for="(item, itemIndex) in [player.item0, player.item1, player.item2, player.item3, player.item4, player.item5, player.item6].slice(index * 3, (index + 1) * 3)"
                   :key="itemIndex"
                   :src="`/img/item/${item}.png`"
+                  :alt="item"
                   class="opgg-item-icon"
                 >
               </div>
