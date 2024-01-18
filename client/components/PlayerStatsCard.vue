@@ -35,6 +35,7 @@
                   v-for="(item, itemIndex) in [player.item0, player.item1, player.item2, player.item3, player.item4, player.item5, player.item6].slice(index * 3, (index + 1) * 3)"
                   :key="itemIndex"
                   :src="`/img/item/${item}.png`"
+                  :alt="item"
                   class="opgg-item-icon"
                 >
               </div>
