@@ -4,7 +4,7 @@
       <template #content>
         <div class="opgg-card-content">
           <div class="opgg-card-header">
-            <img class="opgg-champion-icon" :src="`/img/champion/${player.skin}.png`">
+            <img class="opgg-champion-icon" :src="`/img/champion/${player.skin}.png`" alt="Champion icon">
             <div class="opgg-player-info">
               <div class="opgg-player-name">
                 {{ player.name }}
