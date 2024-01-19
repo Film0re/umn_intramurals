@@ -9,7 +9,7 @@
         </template>
 
         <template #content>
-          <div class="center">
+          <form class="center">
             <span class="p-float-label">
               <InputText id="email" v-model="email" />
               <label for="email">Email</label>
@@ -24,7 +24,7 @@
             </p>
 
             <Button label="Login" style="margin-top: 1rem" @click="login" />
-          </div>
+          </form>
         </template>
       </Card>
     </div>

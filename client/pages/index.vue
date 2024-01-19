@@ -87,7 +87,7 @@ const { data: seasons } = useAsyncData("seasons", getOptions);
 <style scoped>
 /* Add the following style to highlight the winning team with a green border */
 .winner {
-  border: 2px solid var(--pink-600);
+  border: 2px solid var(--primary-500);
 }
 
 .full-height {

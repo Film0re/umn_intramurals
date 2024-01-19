@@ -4,7 +4,7 @@
       <template #content>
         <div class="opgg-card-content">
           <div class="opgg-card-header">
-            <img class="opgg-champion-icon" :src="`/img/champion/${player.skin}.png`" alt="Champion icon">
+            <img class="opgg-champion-icon" :src="`/img/champion/${player.skin}.png`">
             <div class="opgg-player-info">
               <div class="opgg-player-name">
                 {{ player.name }}
@@ -16,17 +16,16 @@
                 </span>
                 -
                 <span class="opgg-gold-earned">
-                  {{ player.gold_earned }} Gold
+                  {{ formatGold(player.gold_earned) }} Gold
                 </span>
               </div>
             </div>
           </div>
-        
+          <!--         
           <div class="opgg-spells">
-            <!-- Uncomment the lines below if you want to display summoner spells -->
             <img :src="`/img/spell/${player.perk_primary_style}.png`">
             <img :src="`/img/spell/${player.summoner_spell_2}.png`">
-          </div>
+          </div> -->
 
           <div class="opgg-items">
             <div class="opgg-items">
@@ -35,7 +34,6 @@
                   v-for="(item, itemIndex) in [player.item0, player.item1, player.item2, player.item3, player.item4, player.item5, player.item6].slice(index * 3, (index + 1) * 3)"
                   :key="itemIndex"
                   :src="`/img/item/${item}.png`"
-                  :alt="item"
                   class="opgg-item-icon"
                 >
               </div>
@@ -54,6 +52,14 @@ const props = defineProps({
     required: true,
   },
 });
+
+const formatGold = (gold) => {
+  if (gold >= 1000) {
+    return `${(gold / 1000).toFixed(1)}k`;
+  }
+
+  return gold;
+};
 
 const getKdaRatio = () => ((props.player.champions_killed + props.player.assists) / props.player.num_deaths);
 
@@ -134,13 +140,6 @@ const getPlayerKDAColor = () => {
   height: 1.5rem; /* Reduce the height of item icons */
   width: 1.5rem;
   margin-right: 0.25rem; /* Reduce the right margin for item icons */
-}
-
-.opgg-item-icon:hover,
-.opgg-item-icon:active {
-  height: 1.8rem; /* Increase the height on hover and active states */
-  width: 1.8rem;
-  margin-right: 0.25rem;
 }
 
 

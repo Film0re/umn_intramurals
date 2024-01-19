@@ -1,18 +1,20 @@
 <template>
   <div class="opgg-team-card">
-    <PlayerStatsCard v-for="player in players" :key="player.puuid" :player="player" />
+    <MatchPlayerStatsCard
+      v-for="player in team.players"
+      :key="player.puuid"
+      :player="player"
+    />
   </div>
 </template>
 
 <script setup>
 const props = defineProps({
-  players: {
-    type: Array,
+  team: {
+    type: Object,
     required: true,
   },
 });
-
-
 </script>
 
 <style scoped>
