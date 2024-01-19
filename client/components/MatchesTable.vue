@@ -7,12 +7,14 @@
   >
     <Column field="match_id" header="Match ID">
       <template #body="slotProps">
-        <Button
-          type="button"
-          @click="() => navigateTo(`/matches/${slotProps.data.match_id}`)"
+        <NuxtLink
+          :to="{
+            name: 'matches-id',
+            params: { id: slotProps.data.match_id },
+          }"
         >
-          View
-        </Button>
+        View
+        </NuxtLink>
       </template>
     </Column>
     <Column field="team1Name.name" header="Team 1" />

@@ -23,6 +23,7 @@ const getMatch = async () => {
     .single();
 
   if (error) {
+    // eslint-disable-next-line no-console
     console.log(error);
   } else {
     return data;
@@ -44,11 +45,11 @@ const formattedMatchData = computed(() => {
 
   const team1Players = match?.value?.match_data
     .filter((player) => player.team === 100)
-    .sort((a, b) => roleMap[a.role] - roleMap[b.role]);
+    .sort((a, b) => roleMap[a.individual_position] - roleMap[b.individual_position]);
 
   const team2Players = match?.value?.match_data
     .filter((player) => player.team === 200)
-    .sort((a, b) => roleMap[a.role] - roleMap[b.role]);
+    .sort((a, b) => roleMap[a.individual_position] - roleMap[b.individual_position]);
 
   const team1Gold = team1Players.reduce(
     (acc, player) => acc + player.gold_earned,
