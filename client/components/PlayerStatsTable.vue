@@ -7,15 +7,7 @@
   >
     <template #header>
       <div style="display: flex; justify-content: center; align-items: center">
-        <div class="flex-column">
-          <label for="season">Season</label>
-          <Dropdown
-            v-model="season"
-            :options="seasons"
-            :placeholder="`Select Season`"
-            :on-change="getTeams"
-          />
-        </div>
+        <SeasonPicker @season-changed="season = $event" />
 
         <div class="flex-column">
           <label for="options">Options</label>
@@ -103,15 +95,15 @@ const getTeams = async () => {
     .from("teams")
     .select(
       `
-  *,
-  team_players (
-    player: players (
-      name,
-      match_data: match_data (
-        *
+      *,
+      team_players (
+        player: players (
+          name,
+          match_data: match_data (
+            *
+          )
+        )
       )
-    )
-  )
   `
     )
     .eq("season", season.value);

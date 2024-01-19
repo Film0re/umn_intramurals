@@ -10,14 +10,7 @@
           :sort-order="1"
         >
           <template #header>
-            <span>
-              Season:
-              <Dropdown
-                v-model="season"
-                :options="seasons"
-                @change="season = $event.value"
-              />
-            </span>
+            <SeasonPicker @season-changed="season = $event" />
           </template>
 
           <Column field="rank" header="Rank" :sortable="false" />

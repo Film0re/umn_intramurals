@@ -1,7 +1,7 @@
 <template>
   <div class="full-height">
     <TabView v-show="playersTableLoaded">
-      <TabPanel header="Player Stats">
+      <TabPanel header="Player Stats"> 
         <PlayerStatsTable @loaded="() => (playersTableLoaded = true)" />
       </TabPanel>
 
@@ -27,7 +27,7 @@ definePageMeta({
   middleware: ["admin-auth"],
 });
 
-const playersTableLoaded = ref(true);
+const playersTableLoaded = ref(false);
 const matchesTableLoaded = ref(false);
 </script>
 
