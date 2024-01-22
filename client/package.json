@@ -16,7 +16,7 @@
     "@nuxtjs/eslint-module": "^4.1.0",
     "@nuxtjs/supabase": "^1.1.5",
     "eslint": "^8.56.0",
-    "nuxt": "^3.9.0",
+    "nuxt": "^3.9.3",
     "nuxt-primevue": "^0.2.2",
     "vite-plugin-vuetify": "^2.0.1",
     "vue": "^3.4.14",
