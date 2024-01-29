@@ -9,7 +9,7 @@
 
 <script setup>
 const client = useSupabaseClient();
-const season = ref(5);
+const season = ref(6);
 
 const emit = defineEmits(["seasonChanged"]);
 
@@ -25,14 +25,21 @@ const getSeasons = async () => {
     console.log(error);
   } else {
     // Filter out duplicate seasons and return
-    return [...new Set(data.map((team) => team.season))];
+    const local_seasons = [...new Set(data.map((team) => team.season))];
+
+    season.value = local_seasons[0];
+
+    return local_seasons;
   }
 };
 
 const onChange = (e) => {
   season.value = e.value;
+  console.log("season changed", e.value);
   emit("seasonChanged", e.value);
 };
+
+emit("seasonChanged", season.value);
 
 const { data: options } = useAsyncData("seasons", getSeasons);
 </script>

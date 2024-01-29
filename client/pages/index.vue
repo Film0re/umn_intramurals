@@ -6,14 +6,14 @@
           v-if="teams.length > 0"
           :value="teams"
           :rows="10"
-          :sort-field="'rank'"
-          :sort-order="1"
+          :sort-field="season === 5 ? 'rank' : 'winPercentage'"
+          :sort-order="season === 5 ? 1 : -1"
         >
           <template #header>
             <SeasonPicker @season-changed="season = $event" />
           </template>
 
-          <Column field="rank" header="Rank" :sortable="false" />
+          <!-- <Column field="rank" header="Rank" :sortable="false" /> -->
           <Column field="name" header="Name" />
           <Column field="wins" header="Wins" />
           <Column field="games_played" header="Games Played" />
@@ -31,7 +31,7 @@
 
 <script setup>
 const client = useSupabaseClient();
-const season = ref(5);
+const season = ref(6);
 const isPlayoffs = ref(false);
 
 const getTeams = async () => {
@@ -72,7 +72,7 @@ const getOptions = async () => {
 };
 
 const { data: teams } = useAsyncData("teams", getTeams, {
-  watch: season,
+  watch: season
 });
 const { data: seasons } = useAsyncData("seasons", getOptions);
 </script>

@@ -53,7 +53,15 @@
 <script setup>
 const client = useSupabaseClient();
 const emit = defineEmits(["loaded"]);
-const season = ref(5);
+const season = ref(6);
+
+const props = defineProps({
+  teamId: {
+    type: String,
+    required: false,
+    default: null,
+  },
+});
 
 // TODO: Filter only .rofl files
 const getMatches = async () => {
@@ -61,18 +69,18 @@ const getMatches = async () => {
     .from("matches")
     .select(
       `*,
-  team1: teams!matches_team1_id_fkey (
-    name,
-    season
-  ),
-  team2: teams!matches_team2_id_fkey (
-    name,
-    season
-  ),
-  match_data (
-    *
-  )
-  `
+    team1: teams!matches_team1_id_fkey (
+      name,
+      season
+    ),
+    team2: teams!matches_team2_id_fkey (
+      name,
+      season
+    ),
+    match_data (
+      *
+    )
+    `
     )
     .order("created_at", { ascending: false });
 
@@ -81,6 +89,15 @@ const getMatches = async () => {
     console.log(error);
     return [];
   } else {
+    // If we're on a team page, filter the matches to only show the matches
+    console.log(props);
+    if (props.teamId) {
+      return data.filter(
+        (match) =>
+          (match.team1_id === props.teamId ||
+            match.team2_id === props.teamId)
+      );
+    }
     // Ugly filtering to get only the matches for the selected season
     // Supabase doesn't support filtering on relationships yet >:(
     // TODO: Remove this once supabase supports filtering on relationships
@@ -93,7 +110,7 @@ const getMatches = async () => {
 };
 
 const { data: matches } = useAsyncData("matches", getMatches, {
-  watch: season,
+  watch: [season, props.teamId],
 });
 emit("loaded");
 </script>
