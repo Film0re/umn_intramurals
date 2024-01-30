@@ -9,17 +9,20 @@ load_dotenv()
 
 # Function to read teams, players, and season from a text file
 def read_teams_players(file_path):
+    teams_players = []
+
     with open(file_path, 'r') as file:
         # Read the first line to get the season information
-        season_line = file.readline().strip()
-        season_key, season_value = season_line.split('=')
-        season = season_value.strip()
 
         # Continue reading the rest of the file
         reader = csv.reader(file)
-        teams_players = [row for row in reader]
+        for row in reader:
+            # Split the row by commas to get team names and player names
+            team_player = [item.strip() for item in row]
+            teams_players.append(team_player)
 
-    return season, teams_players
+    return teams_players
+
 
 # Function to connect to Supabase
 def connect_to_supabase():

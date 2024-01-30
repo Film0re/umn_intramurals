@@ -139,7 +139,8 @@ public class Program
         Player[] players = new Player[playerStats.Length];
         MatchStats[] matchStats = new MatchStats[playerStats.Length];
         Match match = GetMatch(metadata, replay.PayloadHeader);
-
+        var teams = await GetTeams(metadata);
+        Console.WriteLine("teams: " + teams.Item1 + " " + teams.Item2 + " " + teams.Item3);
 
         // Loop through each player in the match
         // Getting the player's account information from Riot
@@ -163,7 +164,7 @@ public class Program
             
             // Get team ids and winner id
             // If the match is invalid, then skip it
-            var teams = await GetTeams(metadata);
+            
             
             // Set the match team ids and winner id
             
@@ -173,9 +174,12 @@ public class Program
                 match.team2_id = teams.Item2;
                 match.winner_team_id = teams.Item3;
             }
-            
-          
-            
+            else
+            {
+                Console.WriteLine("Invalid");
+            }
+
+
             players[i] = player;
             matchStats[i] = matchStat;
         }
@@ -286,7 +290,7 @@ public class Program
             var player1 = await supabase.From<TeamPlayer>()
                 .Select("*, teams(season), players(name)")
                 .Filter("player_id", Constants.Operator.Equals, team_puuids[i])
-                .Filter("teams.season", Constants.Operator.Equals, season)
+                .Filter("intramural_season", Constants.Operator.Equals, season)
                 .Single();
 
 
@@ -331,6 +335,12 @@ public class Program
             .OrderByDescending(g => g.Count())
             .First()
             .Key;
+        
+        if(team1_id == Guid.Empty || team2_id == Guid.Empty)
+        {
+            Console.WriteLine("Invalid match");
+            return (Guid.Empty, Guid.Empty, Guid.Empty);
+        }
 
         return (team1_id, team2_id, winning_team_id);
     }
@@ -590,5 +600,5 @@ public class Program
     // Replays folder location
     public static string replayFolder = "";
 
-    public static int season = 5;
+    public static int season = 6;
 }
