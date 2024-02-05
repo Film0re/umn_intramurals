@@ -35,6 +35,7 @@
                   :key="itemIndex"
                   :src="`/img/item/${item}.png`"
                   class="opgg-item-icon"
+                  style="border: 1px solid grey;"
                 >
               </div>
             </div>
