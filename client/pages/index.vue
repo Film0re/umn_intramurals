@@ -30,6 +30,33 @@
 </template>
 
 <script setup>
+useSeoMeta({
+  title: 'UMN LoL Intramurals - Standings',
+  description: 'View all the teams and their standings in the UMN LoL Intramurals',
+  ogTitle: 'UMN LoL Intramurals',
+  ogDescription: 'Check out the standings for the UMN LoL Intramurals!',
+  ogImage: '/club_logo.png',
+  ogUrl: 'https://uofm.lol/',
+  twitterTitle: 'UMN LoL Intramurals',
+  twitterDescription: 'Check out the standings for the UMN LoL Intramurals!',
+  twitterImage: '/club_logo.png',
+  twitterCard: 'summary'
+})
+
+useHead({
+  htmlAttrs: {
+    lang: 'en'
+  },
+  link: [
+    {
+      rel: 'icon',
+      type: 'image/png',
+      href: '/favicon.ico'
+    }
+  ]
+})
+
+
 const client = useSupabaseClient();
 const season = ref(6);
 const isPlayoffs = ref(false);
