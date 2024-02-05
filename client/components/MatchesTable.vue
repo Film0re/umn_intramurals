@@ -90,7 +90,6 @@ const getMatches = async () => {
     return [];
   } else {
     // If we're on a team page, filter the matches to only show the matches
-    console.log(props);
     if (props.teamId) {
       return data.filter(
         (match) =>

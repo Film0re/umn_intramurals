@@ -35,7 +35,6 @@ const getSeasons = async () => {
 
 const onChange = (e) => {
   season.value = e.value;
-  console.log("season changed", e.value);
   emit("seasonChanged", e.value);
 };
 

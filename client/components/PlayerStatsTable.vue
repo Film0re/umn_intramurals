@@ -42,7 +42,6 @@ const client = useSupabaseClient();
 const teams = ref([]);
 const team_players = ref([]);
 const season = ref(6);
-const seasons = ref([5,6]);
 
 const emit = defineEmits(["loaded"]);
 

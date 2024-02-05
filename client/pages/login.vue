@@ -32,6 +32,20 @@
 </template>
 
 <script setup>
+// use seo meta to not show up in search engines
+useSeoMeta({
+  title: "Login",
+  description: "Login to the admin dashboard",
+  ogTitle: "Login",
+  ogDescription: "Login to the admin dashboard",
+  ogImage: "/club_logo.png",
+  ogUrl: "https://uofm.lol/",
+  twitterTitle: "Login",
+  twitterDescription: "Login to the admin dashboard",
+  twitterImage: "/club_logo.png",
+  twitterCard: "summary",
+});
+
 const router = useRouter();
 const client = useSupabaseClient();
 
