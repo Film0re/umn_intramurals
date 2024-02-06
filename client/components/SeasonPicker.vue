@@ -4,12 +4,13 @@
       Season:
       <Dropdown v-model="season" :options="options || []" @change="onChange" />
     </span>
+    {{ season }}
   </div>
 </template>
 
 <script setup>
 const client = useSupabaseClient();
-const season = ref(6);
+const season = useSeason();
 
 const emit = defineEmits(["seasonChanged"]);
 
