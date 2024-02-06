@@ -1,0 +1,1 @@
+export const useSeason = () => useState<Number>('season', () => 6)

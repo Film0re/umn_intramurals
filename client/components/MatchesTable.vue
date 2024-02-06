@@ -53,7 +53,7 @@
 <script setup>
 const client = useSupabaseClient();
 const emit = defineEmits(["loaded"]);
-const season = ref(6);
+const season = useSeason();
 
 const props = defineProps({
   teamId: {

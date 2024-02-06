@@ -9,7 +9,7 @@
 
 <script setup>
 const client = useSupabaseClient();
-const season = ref(6);
+const season = useSeason();
 
 const emit = defineEmits(["seasonChanged"]);
 
