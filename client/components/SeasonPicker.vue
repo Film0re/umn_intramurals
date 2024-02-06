@@ -4,7 +4,6 @@
       Season:
       <Dropdown v-model="season" :options="options || []" @change="onChange" />
     </span>
-    {{ season }}
   </div>
 </template>
 
