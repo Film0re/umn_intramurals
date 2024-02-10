@@ -3,7 +3,7 @@ export default defineNuxtRouteMiddleware(async () => {
     const supabase = useSupabaseClient();
 
     // Call RPC to check if user is admin
-    let { data, error } = await supabase.rpc('is_admin');
+    const { data, error } = await supabase.rpc('is_admin');
     if (error) {
         console.error(error);
     }
