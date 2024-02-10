@@ -109,7 +109,7 @@ const getMatches = async () => {
 };
 
 const { data: matches } = useAsyncData("matches", getMatches, {
-  watch: [season, props.teamId],
+  watch: [season],
 });
 emit("loaded");
 </script>
