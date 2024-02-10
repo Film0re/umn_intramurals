@@ -2,7 +2,7 @@
   <div class="full-screen">
     <PageHeader />
     <NuxtPage />
-    <!-- <PageFooter /> -->
+    <PageFooter />
   </div>
 </template>
 
