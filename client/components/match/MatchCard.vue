@@ -55,4 +55,11 @@ const props = defineProps({
   flex-direction: column;
   align-items: center;
 }
+
+@media (max-width: 768px) {
+  .opgg-match-card__teams {
+    flex-direction: column;
+  }
+}
+
 </style>

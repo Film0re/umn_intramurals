@@ -1,7 +1,7 @@
 <template>
   <div class="full-height">
     <TabView>
-      <TabPanel header="Regular Season">
+      <TabPanel header="Standings">
         <DataTable
           v-if="teams.length > 0"
           :value="teams"
