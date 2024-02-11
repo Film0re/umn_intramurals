@@ -34,7 +34,7 @@ useHead({
   ],
   script: [
     {
-      src: 'https://umami-jade-kappa.vercel.app/script.js',
+      src: '/stats/script.js',
       'data-website-id': 'ecf1e18c-f544-4e38-89ee-7096336709d8',
       async: true
     }
