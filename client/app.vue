@@ -30,6 +30,13 @@ useHead({
       rel: 'icon',
       type: 'image/png',
       href: '/favicon.ico'
+    },
+  ],
+  script: [
+    {
+      src: '/stats/script.js',
+      'data-website-id': '94db1cb1-74f4-4a40-ad6c-962362670409',
+      defer: true
     }
   ]
 })
