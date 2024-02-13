@@ -24,7 +24,6 @@ definePageMeta({
 });
 
 const playersTableLoaded = ref(false);
-const matchesTableLoaded = ref(false);
 </script>
 
 <style scoped>

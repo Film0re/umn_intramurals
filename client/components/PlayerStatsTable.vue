@@ -1,7 +1,4 @@
 <template>
-  <pre>
-    <!-- {{ player_averages }} -->
-  </pre>
   <DataTable
     :value="player_averages"
     :paginator="true"
@@ -12,14 +9,15 @@
       <div style="display: flex; justify-content: center; align-items: center">
         <SeasonPicker @season-changed="season = $event" />
 
-        <!-- {{ player_averages }} -->
         <div class="flex-row">
-          <label for="options" style="padding-left: 10px;">Options: </label>
+          <label for="options" style="padding-left: 10px">Options: </label>
           <MultiSelect
             v-model="selectedOptions"
             :options="player_averages ? Object.keys(player_averages[0]) : []"
             :option-label="convertFieldNameToLabel"
-            :placeholder="`Select ${player_averages ? Object.keys(player_averages[0]).length : 0} options`"
+            :placeholder="`Select ${
+              player_averages ? Object.keys(player_averages[0]).length : 0
+            } options`"
             :max-selected-labels="0"
             :filter="true"
             :show-select-all="true"
@@ -47,8 +45,7 @@ const season = useSeason();
 
 const emit = defineEmits(["loaded"]);
 
-const selectedOptions = ref(["average_kda", "average_kills", "average_deaths", 
-]);
+const selectedOptions = ref(["average_kda", "average_kills", "average_deaths"]);
 
 const convertFieldNameToLabel = (fieldName) => {
   const label = fieldName
