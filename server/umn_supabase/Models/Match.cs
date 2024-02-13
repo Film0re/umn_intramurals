@@ -12,6 +12,9 @@ namespace umn_supabase.Models
         
         [Column("match_length")]
         public int match_length { get; set; }
+
+        [Column("season")]
+        public int season { get; set; }
         
         [Column("game_version")]
         public string game_version { get; set; }

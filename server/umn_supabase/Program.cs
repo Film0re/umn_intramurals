@@ -394,6 +394,7 @@ public class Program
             game_version = metadata.GameVersion,
             team1_id = null,
             team2_id = null,
+            season = season, // Set the season, used for filtering in the database
             winner_team_id = null
         };
 
@@ -600,5 +601,5 @@ public class Program
     // Replays folder location
     public static string replayFolder = "";
 
-    public static int season = 6;
+    public static int season; // No default value, must be set before running the program to ensure the correct season is set
 }
