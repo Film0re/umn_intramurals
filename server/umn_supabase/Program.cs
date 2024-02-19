@@ -15,7 +15,7 @@ public class Program
         var url = APIKeysLocal.SupabaseUrl;
         var key = APIKeysLocal.SupabaseKey;
         replayFolder = APIKeysLocal.replayFolder;
-        season = APIKeysLocal.season;
+        intramural_season = APIKeysLocal.season;
         
         var options = new Supabase.SupabaseOptions
         {
@@ -290,7 +290,7 @@ public class Program
             var player1 = await supabase.From<TeamPlayer>()
                 .Select("*, teams(season), players(name)")
                 .Filter("player_id", Constants.Operator.Equals, team_puuids[i])
-                .Filter("intramural_season", Constants.Operator.Equals, season)
+                .Filter("intramural_season", Constants.Operator.Equals, intramural_season)
                 .Single();
 
 
@@ -394,6 +394,7 @@ public class Program
             game_version = metadata.GameVersion,
             team1_id = null,
             team2_id = null,
+            season = intramural_season, // Set the season, used for filtering in the database
             winner_team_id = null
         };
 
@@ -600,5 +601,5 @@ public class Program
     // Replays folder location
     public static string replayFolder = "";
 
-    public static int season = 6;
+    public static int intramural_season; // No default value, must be set before running the program to ensure the correct season is set
 }

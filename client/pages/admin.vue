@@ -5,10 +5,6 @@
         <PlayerStatsTable @loaded="() => (playersTableLoaded = true)" />
       </TabPanel>
 
-      <TabPanel header="Matches">
-        <MatchesTable @loaded="() => (matchesTableLoaded = true)" />
-      </TabPanel>
-
       <TabPanel header="Upload">
         <UploadMatch />
       </TabPanel>
@@ -28,7 +24,6 @@ definePageMeta({
 });
 
 const playersTableLoaded = ref(false);
-const matchesTableLoaded = ref(false);
 </script>
 
 <style scoped>
