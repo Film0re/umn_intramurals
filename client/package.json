@@ -19,7 +19,7 @@
     "nuxt": "^3.10.1",
     "nuxt-primevue": "^0.3.0",
     "vite-plugin-vuetify": "^2.0.1",
-    "vue": "^3.4.15",
+    "vue": "^3.4.19",
     "vue-router": "^4.2.5"
   },
   "dependencies": {
