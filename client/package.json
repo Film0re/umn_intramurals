@@ -18,7 +18,6 @@
     "eslint": "^8.57.0",
     "nuxt": "^3.10.2",
     "nuxt-primevue": "^0.3.0",
-    "vite-plugin-vuetify": "^2.0.1",
     "vue": "^3.4.15",
     "vue-router": "^4.3.0"
   },
