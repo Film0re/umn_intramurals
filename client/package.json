@@ -16,7 +16,7 @@
     "@nuxtjs/eslint-module": "^4.1.0",
     "@nuxtjs/supabase": "^1.1.7",
     "eslint": "^8.57.0",
-    "nuxt": "^3.10.3",
+    "nuxt": "^3.11.0",
     "nuxt-primevue": "^0.3.1",
     "vue": "^3.4.21",
     "vue-router": "^4.3.0"
