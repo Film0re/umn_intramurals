@@ -32,11 +32,8 @@
               <div v-for="(row, index) in 2" :key="index" class="opgg-item-row">
                 <img
                   v-for="(item, itemIndex) in [player.item0, player.item1, player.item2, player.item3, player.item4, player.item5, player.item6].slice(index * 3, (index + 1) * 3)"
-                  :key="itemIndex"
-                  :src="`/img/item/${item}.png`"
-                  class="opgg-item-icon"
-                  style="border: 1px solid grey;"
-                >
+                  :key="itemIndex" :src="`/img/item/${item}.png`" class="opgg-item-icon"
+                  style="border: 1px solid grey;">
               </div>
             </div>
           </div>
@@ -81,7 +78,6 @@ const getPlayerKDAColor = () => {
 </script>
 
 <style scoped>
-
 .opgg-player-card {
   display: flex;
   flex-direction: column;
@@ -90,10 +86,11 @@ const getPlayerKDAColor = () => {
 }
 
 .opgg-card {
-  width: 250px; /* Adjust the card width as needed */
+  width: 250px;
+  /* Adjust the card width as needed */
   flex-direction: column;
   align-items: center;
-  
+
 }
 
 .opgg-card-header {
@@ -103,7 +100,8 @@ const getPlayerKDAColor = () => {
 
 
 .opgg-champion-icon {
-  height: 2rem; /* Reduce the height of the champion icon */
+  height: 2rem;
+  /* Reduce the height of the champion icon */
   width: 2rem;
   margin-right: 1rem;
 }
@@ -114,34 +112,39 @@ const getPlayerKDAColor = () => {
 }
 
 .opgg-player-name {
-  font-size: 1rem; /* Reduce the font size of the player name */
+  font-size: 1rem;
+  /* Reduce the font size of the player name */
   font-weight: bold;
 }
 
 .opgg-kda {
-  font-size: 0.8rem; /* Reduce the font size of the KDA */
+  font-size: 0.8rem;
+  /* Reduce the font size of the KDA */
   color: #888;
 }
 
 .opgg-kda-ratio {
-  color: #4CAF50; /* Green color for KDA ratio */
+  color: #4CAF50;
+  /* Green color for KDA ratio */
 }
 
 .opgg-spells {
   display: flex;
-  margin-top: 0.5rem; /* Reduce the top margin for summoner spells */
+  margin-top: 0.5rem;
+  /* Reduce the top margin for summoner spells */
 }
 
 .opgg-items {
   display: flex;
-  margin-top: 0.5rem; /* Reduce the top margin for items */
+  margin-top: 0.5rem;
+  /* Reduce the top margin for items */
 }
 
 .opgg-item-icon {
-  height: 1.5rem; /* Reduce the height of item icons */
+  height: 1.5rem;
+  /* Reduce the height of item icons */
   width: 1.5rem;
-  margin-right: 0.25rem; /* Reduce the right margin for item icons */
+  margin-right: 0.25rem;
+  /* Reduce the right margin for item icons */
 }
-
-
 </style>
