@@ -74,26 +74,8 @@ const props = defineProps({
 
 const convertStringToLabel = (str) => {
   const parts = str.split("-");
-
-  if (
-    parts.length === 3 &&
-    parts[0].startsWith("s") &&
-    parts[1] === "quarter"
-  ) {
-    const quarterNumber = parseInt(parts[2]);
-
-    if (quarterNumber >= 1 && quarterNumber <= 4) {
-      return `Quarter Finals Series ${quarterNumber}`;
-    }
-  } else if (
-    parts.length === 2 &&
-    parts[0] === "Quarter" &&
-    !isNaN(parseInt(parts[1]))
-  ) {
-    return `Quarter-finals ${parts[1]}`;
-  }
-
-  return "Invalid format";
+  const series_type = parts[1][0].toUpperCase() + parts[1].slice(1);
+  return `${series_type}finals - ${parts[2]}`;
 };
 
 </script>
