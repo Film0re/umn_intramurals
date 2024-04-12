@@ -14,7 +14,17 @@
           </template>
 
           <!-- <Column field="rank" header="Rank" :sortable="false" /> -->
-          <Column field="name" header="Name" />
+          <Column field="name" header="Team">
+            <template #body="slotProps">
+              <span>
+                {{ slotProps.data.name }} 
+              </span>
+
+              <span v-if="slotProps.data.rank === 1" class="winner">
+                🏆
+              </span>
+            </template>
+          </Column>
           <Column field="wins" header="Wins" />
           <Column field="games_played" header="Games Played" />
           <Column field="winPercentage" header="Win Percentage" />
@@ -58,17 +68,18 @@ const getTeams = async () => {
   }
 };
 
-
 const { data: teams } = useAsyncData("teams", getTeams, {
-  watch: season
+  watch: season,
 });
 </script>
 
 <style scoped>
 /* Add the following style to highlight the winning team with a green border */
-.winner {
+/* .winner {
   border: 2px solid var(--primary-500);
-}
+  border-radius: 5px;
+  padding: 0.5rem 0.5rem;
+} */
 
 .full-height {
   width: clamp(300px, 100%, 900px);

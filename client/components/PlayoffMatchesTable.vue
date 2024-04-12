@@ -75,7 +75,7 @@ const props = defineProps({
 const convertStringToLabel = (str) => {
   const parts = str.split("-");
   const series_type = parts[1][0].toUpperCase() + parts[1].slice(1);
-  return `${series_type}finals - ${parts[2]}`;
+  return `${series_type}`;
 };
 
 </script>
