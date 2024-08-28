@@ -8,11 +8,7 @@ export default defineNuxtConfig({
     },
   },
 
-  modules: [
-    'nuxt-primevue',
-    '@nuxtjs/supabase',
-    '@vueuse/nuxt',
-  ],
+  modules: ['nuxt-primevue', '@nuxtjs/supabase', '@vueuse/nuxt', "@nuxtjs/tailwindcss"],
 
   supabase: {
     url: process.env.NUXT_PUBLIC_SUPABASE_URL,

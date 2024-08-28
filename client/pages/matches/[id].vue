@@ -22,6 +22,9 @@ const getMatch = async () => {
     .eq("match_id", route.params.id)
     .single();
 
+
+    console.log(data);
+
   if (error) {
     // eslint-disable-next-line no-console
     console.log(error);
@@ -71,6 +74,8 @@ const formattedMatchData = computed(() => {
 
   if (match.value) {
     return {
+      duration: match.value.match_length,
+      winner: match.value.winner_team_id,
       team1: {
         name: match.value.team1.name,
         players: team1Players,
