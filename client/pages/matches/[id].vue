@@ -1,10 +1,11 @@
 <template>
   <div class="full-height">
-    <MatchCard v-if="match" :match="formattedMatchData" />
+    <MatchCard v-if="formattedMatchData" :match="formattedMatchData" />
   </div>
 </template>
 
 <script setup>
+
 const route = useRoute();
 const client = useSupabaseClient();
 
@@ -22,21 +23,17 @@ const getMatch = async () => {
     .eq("match_id", route.params.id)
     .single();
 
-
-    console.log(data);
-
   if (error) {
-    // eslint-disable-next-line no-console
-    console.log(error);
-  } else {
-    return data;
+    console.error(error);
+    return null;
   }
+  return data;
 };
 
-// Clean up the data since the way it gets returned from supabase is
-// horrible to work with
+const { data: match } = useAsyncData("match", getMatch);
+
 const formattedMatchData = computed(() => {
-  if (!match.value) return;
+  if (!match.value) return null;
 
   const roleMap = {
     TOP: 0,
@@ -46,59 +43,52 @@ const formattedMatchData = computed(() => {
     UTILITY: 4,
   };
 
-  const team1Players = match?.value?.match_data
-    .filter((player) => player.team === 100)
-    .sort((a, b) => roleMap[a.individual_position] - roleMap[b.individual_position]);
+  const formatTeam = (teamData, teamId) => {
+    const players = match.value.match_data
+      .filter((player) => player.team === teamId)
+      .sort((a, b) => roleMap[a.individual_position] - roleMap[b.individual_position])
+      .map(player => ({
+        summonerName: player.name,
+        champion: player.skin,
+        kills: player.champions_killed,
+        deaths: player.num_deaths,
+        assists: player.assists,
+        cs: player.minions_killed,
+        killparticipation: player.kill_participation,
+        items: [player.item0, player.item1, player.item2, player.item3, player.item4, player.item5]
+      }));
 
-  const team2Players = match?.value?.match_data
-    .filter((player) => player.team === 200)
-    .sort((a, b) => roleMap[a.individual_position] - roleMap[b.individual_position]);
+    const totalKills = players.reduce((acc, player) => acc + player.kills, 0);
+    const totalGold = players.reduce((acc, player) => acc + player.gold_earned, 0);
 
-  const team1Gold = team1Players.reduce(
-    (acc, player) => acc + player.gold_earned,
-    0
-  );
-  const team2Gold = team2Players.reduce(
-    (acc, player) => acc + player.gold_earned,
-    0
-  );
-
-  const team1Kills = team1Players.reduce(
-    (acc, player) => acc + player.champions_killed,
-    0
-  );
-  const team2Kills = team2Players.reduce(
-    (acc, player) => acc + player.champions_killed,
-    0
-  );
-
-  if (match.value) {
     return {
-      duration: match.value.match_length,
-      winner: match.value.winner_team_id,
-      team1: {
-        name: match.value.team1.name,
-        players: team1Players,
-        win: match.value.winner.team_id === match.value.team1.team_id,
-        stats: {
-          gold: team1Gold,
-          kills: team1Kills,
-        },
-      },
-      team2: {
-        name: match.value.team2.name,
-        players: team2Players,
-        win: match.value.winner.team_id === match.value.team2.team_id,
-        stats: {
-          gold: team2Gold,
-          kills: team2Kills,
-        },
-      },
+      id: teamData.team_id,
+      name: teamData.name,
+      players,
+      stats: {
+        kills: totalKills,
+        gold: totalGold,
+      }
     };
-  }
-});
+  };
 
-const { data: match } = useAsyncData("match", getMatch);
+  const team1 = formatTeam(match.value.team1, 100);
+  const team2 = formatTeam(match.value.team2, 200);
+
+  return {
+    duration: match.value.match_length,
+    gameMode: match.value.queue_id, // Assuming queue_id represents the game mode
+    winner: match.value.winner.team_id,
+    blueTeam: {
+      ...team1,
+      win: match.value.winner.team_id === team1.id,
+    },
+    redTeam: {
+      ...team2,
+      win: match.value.winner.team_id === team2.id,
+    }
+  };
+});
 </script>
 
 <style scoped>

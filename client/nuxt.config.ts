@@ -8,7 +8,7 @@ export default defineNuxtConfig({
     },
   },
 
-  modules: ['nuxt-primevue', '@nuxtjs/supabase', '@vueuse/nuxt', "@nuxtjs/tailwindcss"],
+  modules: ['nuxt-primevue', '@nuxtjs/supabase', '@vueuse/nuxt'],
 
   supabase: {
     url: process.env.NUXT_PUBLIC_SUPABASE_URL,
@@ -18,4 +18,4 @@ export default defineNuxtConfig({
 
 
   css: ['primevue/resources/themes/lara-dark-pink/theme.css']
-})
+});
