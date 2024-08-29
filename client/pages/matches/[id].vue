@@ -53,7 +53,7 @@ const formattedMatchData = computed(() => {
         kills: player.champions_killed,
         deaths: player.num_deaths,
         assists: player.assists,
-        cs: player.minions_killed,
+        cs: player.minions_killed + player.neutral_minions_killed,
         killparticipation: player.kill_participation,
         items: [player.item0, player.item1, player.item2, player.item3, player.item4, player.item5]
       }));
