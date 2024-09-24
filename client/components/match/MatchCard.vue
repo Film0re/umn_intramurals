@@ -21,20 +21,20 @@
         <div class="teams-container">
           <div
             v-for="(team, index) in [match.blueTeam, match.redTeam]"
-            :key="team.id"
+            :key="team?.id"
             :class="[
               'team',
               index === 0 ? 'blue-team' : 'red-team',
-              { winner: team.win },
+              { winner: team?.win },
             ]"
           >
             <h3 class="team-title">
-              {{ team.name }}
+              {{ team?.name }}
               <span v-if="team.win" class="winner-label"> (Winner) </span>
             </h3>
             <div
-              v-for="player in team.players"
-              :key="player.summonerName"
+              v-for="player in team?.players"
+              :key="player?.summonerName"
               class="player-card"
             >
               <div class="player-info">
@@ -43,17 +43,17 @@
                   :alt="player.champion"
                   class="champion-icon"
                 >
-                <span class="summoner-name">{{ player.summonerName }}</span>
-                <span class="champion-name">{{ player.champion }}</span>
+                <span class="summoner-name">{{ player?.summonerName }}</span>
+                <span class="champion-name">{{ player?.champion }}</span>
               </div>
               <div class="player-stats">
                 <span class="kda">
-                  {{ player.kills }}/{{ player.deaths }}/{{ player.assists }}
-                  <span class="cs">{{ player.cs }} CS ({{(  player.cs / match.duration * 60  ).toFixed(1)}})</span> 
+                  {{ player.kills }}/{{ player?.deaths }}/{{ player.assists }}
+                  <span class="cs">{{ player?.cs }} CS ({{(  player.cs / match.duration * 60  ).toFixed(1)}})</span> 
                 </span>
                 <div class="items">
                   <img
-                    v-for="item in player.items"
+                    v-for="item in player.items || [0, 0, 0, 0, 0, 0]"
                     :key="item"
                     :src="`/img/item/${item}.png`"
                     alt="Item"
@@ -77,6 +77,8 @@ const props = defineProps({
     required: true,
   },
 });
+
+console.log(props.match);
 
 const formatDuration = (seconds) => {
   const minutes = Math.floor(seconds / 60);
