@@ -8,9 +8,9 @@
     </PropertyGroup>
 
     <ItemGroup>
-      <PackageReference Include="Camille.RiotGames" Version="3.0.0-nightly-2024-01-04-95741ea8f0" />
-      <PackageReference Include="Fraxiinus.Rofl.Extract.Data" Version="2.3.0" />
-      <PackageReference Include="supabase-csharp" Version="0.15.0" />
+      <PackageReference Include="Camille.RiotGames" Version="3.0.0-nightly-2024-07-25-a17f385bca" />
+      <PackageReference Include="Fraxiinus.Rofl.Extract.Data" Version="3.1.1" />
+      <PackageReference Include="supabase-csharp" Version="0.16.2" />
     </ItemGroup>
 
     <ItemGroup>

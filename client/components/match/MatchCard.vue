@@ -78,7 +78,6 @@ const props = defineProps({
   },
 });
 
-console.log(props.match);
 
 const formatDuration = (seconds) => {
   const minutes = Math.floor(seconds / 60);

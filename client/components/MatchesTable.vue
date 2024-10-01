@@ -1,17 +1,32 @@
 <template>
   <DataTable
     v-if="!isPlayoffs"
-    :value="matches.filter((match) => match.is_playoffs === isPlayoffs)"
+    :value="filteredMatches"
     :paginator="true"
     :rows="10"
     :rows-per-page-options="[10, 25, 50]"
+    rowGroupMode="subheader"
+    groupRowsBy="week"
+    :sortOrder="1"
   >
     <template #header>
       <div class="flex-center">
         <SeasonPicker @season-changed="season = $event" />
-        <PlayoffToggle class="left-pad" @playoffs-changed="isPlayoffs = $event" />
+        <PlayoffToggle
+          class="left-pad"
+          @playoffs-changed="isPlayoffs = $event"
+        />
       </div>
     </template>
+
+    <template #groupheader="{ data }" >
+      <span class="font-bold">Week {{ data.week }}</span>
+    </template>
+    <Column field="week" header="Week">
+      <template #body="{ data }">
+        <span>{{ data.week }}</span>
+      </template>
+    </Column>
 
     <Column field="match_id" header="Match ID">
       <template #body="slotProps">
@@ -29,11 +44,10 @@
       <template #body="slotProps">
         <span
           :class="{
-            winner:
-              slotProps?.data?.winner_team_id === slotProps?.data?.team1_id,
+            winner: slotProps.data.winner_team_id === slotProps.data.team1_id,
           }"
         >
-          {{ slotProps?.data?.team1?.name }}
+          {{ slotProps.data.team1.name }}
         </span>
       </template>
     </Column>
@@ -41,17 +55,15 @@
       <template #body="slotProps">
         <span
           :class="{
-            winner:
-              slotProps?.data?.winner_team_id === slotProps?.data?.team2_id,
+            winner: slotProps.data.winner_team_id === slotProps.data.team2_id,
           }"
         >
-          {{ slotProps?.data?.team2.name }}
+          {{ slotProps.data.team2.name }}
         </span>
       </template>
     </Column>
   </DataTable>
-
-  <PlayoffMatchesTable v-else :matches="matches" />
+  <PlayoffMatchesTable v-else :matches="filteredMatches" />
 </template>
 
 <script setup>
@@ -107,8 +119,8 @@ const getMatches = async () => {
     // TODO: Remove this once supabase supports filtering on relationships
     return data.filter(
       (match) =>
-        (match.team1.season === season.value ||
-          match.team2.season === season.value)
+        match.team1.season === season.value ||
+        match.team2.season === season.value
     );
   }
 };
@@ -117,6 +129,27 @@ const { data: matches } = useAsyncData("matches", getMatches, {
   watch: [season],
 });
 emit("loaded");
+const filteredMatches = computed(() => {
+  if (!matches.value) return [];
+
+  return matches.value
+    .filter((match) => !match.is_playoffs)
+    .filter((match) => {
+      if (props.teamId) {
+        return (
+          match.team1_id === props.teamId || match.team2_id === props.teamId
+        );
+      }
+      return (
+        match.team1.season === season.value ||
+        match.team2.season === season.value
+      );
+    })
+    .map((match) => ({
+      ...match,
+      week: match.week ?? "Unknown",
+    }));
+});
 </script>
 
 <style scoped>

@@ -30,6 +30,9 @@ namespace umn_supabase.Models
         
         [Column("is_playoffs")]
         public bool is_playoffs { get; set; } = false;
+        
+        [Column("week")]
+        public int week { get; set; }
 
     }
 }

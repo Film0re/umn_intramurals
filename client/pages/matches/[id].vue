@@ -87,7 +87,6 @@ const formattedMatchData = computed(() => {
       },
     };
   };
-  console.log("team1", match.value.team1);
 
   const team1 = formatTeam(match.value.team1, 100);
   const team2 = formatTeam(match.value.team2, 200);
@@ -106,9 +105,6 @@ const formattedMatchData = computed(() => {
   });
 
 
-  // Update the name with the one from the db if known
-  // will not work for subs :\
-  // Damn you riot for breaking my code >:(
   team1.players.forEach((player) => {
     player.summonerName = playerNames[player.player_id] ?? player.summonerName;
   });
