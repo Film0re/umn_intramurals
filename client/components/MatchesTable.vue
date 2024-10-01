@@ -5,9 +5,9 @@
     :paginator="true"
     :rows="10"
     :rows-per-page-options="[10, 25, 50]"
-    rowGroupMode="subheader"
-    groupRowsBy="week"
-    :sortOrder="1"
+    row-group-mode="subheader"
+    group-rows-by="week"
+    :sort-order="1"
   >
     <template #header>
       <div class="flex-center">
@@ -19,7 +19,7 @@
       </div>
     </template>
 
-    <template #groupheader="{ data }" >
+    <template #groupheader="{ data }">
       <span class="font-bold">Week {{ data.week }}</span>
     </template>
     <Column field="week" header="Week">
