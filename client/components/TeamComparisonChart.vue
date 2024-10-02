@@ -62,6 +62,7 @@ const chartOptions = computed(() => ({
   indexAxis: 'y',
   responsive: true,
   maintainAspectRatio: false,
+  animation: false,
   plugins: {
     legend: {
       display: false
