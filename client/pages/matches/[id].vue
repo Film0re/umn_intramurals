@@ -1,9 +1,7 @@
 <template>
   <div class="full-height">
-    <!-- <pre>
-      {{ match }}
-    </pre> -->
     <MatchCard v-if="formattedMatchData" :match="formattedMatchData" />
+    <TeamComparisonDashboard v-if="formattedMatchData" :matchData="formattedMatchData" />
   </div>
 </template>
 
@@ -61,6 +59,23 @@ const formattedMatchData = computed(() => {
         assists: player.assists,
         cs: player.minions_killed + player.neutral_minions_killed,
         killparticipation: player.kill_participation,
+        gold_earned: player.gold_earned,
+
+        physical_damage_dealt: player.physical_damage_dealt,
+        magic_damage_dealt_to_champions: player.magic_damage_dealt_to_champions,
+        total_damage_dealt_to_champions: player.total_damage_dealt_to_champions,
+        total_damage_dealt_to_objectives:
+          player.total_damage_dealt_to_objectives,
+        total_damage_dealt_to_turrets: player.total_damage_dealt_to_turrets,
+        physical_damage_taken: player.physical_damage_taken,
+        total_damage_taken: player.total_damage_taken,
+        total_damage_self_mitigated: player.total_damage_self_mitigated,
+        ping: player.ping,
+        wards_placed: player.wards_placed,
+
+        triple_kills: player.triple_kills,
+        quadra_kills: player.quadra_kills,
+        penta_kills: player.penta_kills,
         items: [
           player.item0,
           player.item1,
@@ -77,6 +92,17 @@ const formattedMatchData = computed(() => {
       0
     );
 
+
+
+    // Function to find the sum of a specific field for a given team
+    const getTeamStat = (teamId, field) => match.value.match_data
+      .filter((player) => player.team === teamId)
+      .reduce((acc, player) => acc + player[field], 0);
+
+    const barons_killed = getTeamStat(teamId, 'baron_kills');
+    const dragons_killed = getTeamStat(teamId, 'dragon_kills');
+
+
     return {
       id: teamData.team_id,
       name: teamData.name,
@@ -84,6 +110,8 @@ const formattedMatchData = computed(() => {
       stats: {
         kills: totalKills,
         gold: totalGold,
+        barons_killed: barons_killed,
+        dragons_killed: dragons_killed,
       },
     };
   };
@@ -104,7 +132,6 @@ const formattedMatchData = computed(() => {
     playerNames[player.players.player_id] = player.players.name;
   });
 
-
   team1.players.forEach((player) => {
     player.summonerName = playerNames[player.player_id] ?? player.summonerName;
   });
@@ -112,7 +139,6 @@ const formattedMatchData = computed(() => {
   team2.players.forEach((player) => {
     player.summonerName = playerNames[player.player_id] ?? player.summonerName;
   });
-
 
   return {
     duration: match.value.match_length,
