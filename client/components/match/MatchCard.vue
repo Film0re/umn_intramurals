@@ -38,18 +38,21 @@
               class="player-card"
             >
               <div class="player-info">
-                <img
+                <NuxtImg
                   :src="`/img/champion/${player.champion}.png`"
                   :alt="player.champion"
                   class="champion-icon"
+                  width="40"
+                  height="40"
                 >
-                <span class="summoner-name">{{ player?.summonerName }}</span>
-                <span class="champion-name">{{ player?.champion }}</span>
+                  <span class="summoner-name">{{ player?.summonerName }}</span>
+                  <span class="champion-name">{{ player?.champion }}</span>
+                </nuxtimg>
               </div>
               <div class="player-stats">
                 <span class="kda">
                   {{ player.kills }}/{{ player?.deaths }}/{{ player.assists }}
-                  <span class="cs">{{ player?.cs }} CS ({{(  player.cs / match.duration * 60  ).toFixed(1)}})</span> 
+                  <span class="cs">{{ player?.cs }} CS ({{ ( player.cs / match.duration * 60 ).toFixed(1) }})</span> 
                 </span>
                 <div class="items">
                   <img

@@ -8,7 +8,7 @@ export default defineNuxtConfig({
     },
   },
 
-  modules: ['nuxt-primevue', '@nuxtjs/supabase', '@vueuse/nuxt'],
+  modules: ['nuxt-primevue', '@nuxtjs/supabase', '@vueuse/nuxt', '@nuxt/image'],
 
   supabase: {
     url: process.env.NUXT_PUBLIC_SUPABASE_URL,
@@ -16,6 +16,9 @@ export default defineNuxtConfig({
     redirect: false,
   },
 
+  image: {
+    format: ['webp'],
+  },
 
   css: ['primevue/resources/themes/lara-dark-pink/theme.css']
 });

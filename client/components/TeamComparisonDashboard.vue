@@ -18,8 +18,6 @@
 </template>
 
 <script setup>
-import { computed } from "vue";
-import TeamComparisonChart from "./TeamComparisonChart.vue";
 
 const props = defineProps({
   matchData: Object,
