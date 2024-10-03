@@ -5,14 +5,16 @@
       type="bar"
       :data="chartData"
       :options="chartOptions"
+      :plugins="chartPlugins"
       class="chart"
     />
   </div>
 </template>
 
 <script setup>
-import { computed } from 'vue';
+import { computed, ref } from 'vue';
 import Chart from 'primevue/chart';
+import ChartDataLabels from 'chartjs-plugin-datalabels';
 
 const props = defineProps({
   matchData: {
@@ -29,12 +31,12 @@ const props = defineProps({
   }
 });
 
+const chartPlugins = ref([ChartDataLabels]);
+
 const chartData = computed(() => {
   if (!props.matchData) return {};
-
   const blueTeam = props.matchData.blueTeam.players;
   const redTeam = props.matchData.redTeam.players;
-
   return {
     labels: [
       ...blueTeam.map(p => p.summonerName),
@@ -58,6 +60,10 @@ const chartData = computed(() => {
   };
 });
 
+const formatNumber = (num) => {
+  return num.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+};
+
 const chartOptions = computed(() => ({
   indexAxis: 'y',
   responsive: true,
@@ -75,11 +81,22 @@ const chartOptions = computed(() => ({
             label += ': ';
           }
           if (context.parsed.x !== null) {
-            label += context.parsed.x;
+            label += formatNumber(context.parsed.x);
           }
           return label;
         }
       }
+    },
+    datalabels: {
+      anchor: 'end',
+      align: 'right',
+      offset: 4,
+      color: '#F0F0F0',
+      font: {
+        weight: 'bold',
+      },
+      padding: 4,
+      formatter: (value) => formatNumber(value)
     }
   },
   scales: {
@@ -88,6 +105,11 @@ const chartOptions = computed(() => ({
       title: {
         display: true,
         text: props.chartTitle
+      },
+      ticks: {
+        callback: function(value) {
+          return formatNumber(value);
+        }
       }
     },
     y: {
@@ -112,7 +134,6 @@ const chartOptions = computed(() => ({
   height: 16rem;
   margin-bottom: 20px;
 }
-
 .chart {
   height: 100%;
   width: 100%;
