@@ -49,7 +49,7 @@
               <div class="player-stats">
                 <span class="kda">
                   {{ player.kills }}/{{ player?.deaths }}/{{ player.assists }}
-                  <span class="cs">{{ player?.cs }} CS ({{(  player.cs / match.duration * 60  ).toFixed(1)}})</span> 
+                  <span class="cs">{{ player?.cs }} CS ({{ ( player.cs / match.duration * 60 ).toFixed(1) }})</span> 
                 </span>
                 <div class="items">
                   <img

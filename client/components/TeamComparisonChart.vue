@@ -1,5 +1,5 @@
 <template>
-  <div v-if="matchData" class="chart-container">
+  <DeferredContent v-if="matchData" class="chart-container">
     <h3>{{ chartTitle }}</h3>
     <Chart
       type="bar"
@@ -8,7 +8,7 @@
       :plugins="chartPlugins"
       class="chart"
     />
-  </div>
+  </DeferredContent>
 </template>
 
 <script setup>
