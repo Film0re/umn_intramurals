@@ -44,6 +44,7 @@
                   class="champion-icon"
                   width="40"
                   height="40"
+                  format="webp"
                 >
                   <span class="summoner-name">{{ player?.summonerName }}</span>
                   <span class="champion-name">{{ player?.champion }}</span>
@@ -55,14 +56,15 @@
                   <span class="cs">{{ player?.cs }} CS ({{ ( player.cs / match.duration * 60 ).toFixed(1) }})</span> 
                 </span>
                 <div class="items">
-                  <img
+                  <NuxtImg
                     v-for="item in player.items || [0, 0, 0, 0, 0, 0]"
                     :key="item"
                     :src="`/img/item/${item}.png`"
                     alt="Item"
                     class="item-icon"
                     style="border: 1px solid gray; border-radius: 0.125rem"
-                  >
+                    format="webp"
+                  />
                 </div>
               </div>
             </div>
@@ -74,6 +76,7 @@
 </template>
 
 <script setup>
+
 const props = defineProps({
   match: {
     type: Object,
