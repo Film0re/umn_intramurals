@@ -1,16 +1,13 @@
 <template>
   <div v-if="matchData" class="dashboard-container">
-    <h2>{{ matchData.blueTeam.name }} vs {{ matchData.redTeam.name }}</h2>
+    <!-- <h2>{{ matchData.blueTeam.name }} vs {{ matchData.redTeam.name }} graphs </h2> -->
+    <h2>Graphs</h2>
     <div class="grid-container">
-      <div
-        v-for="(stat, index) in stats"
-        :key="index"
-        class="stat-chart"
-      >
+      <div v-for="(stat, index) in stats" :key="index" class="stat-chart">
         <TeamComparisonChart
-          :matchData="matchData"
-          :statKey="stat"
-          :chartTitle="statTitles[stat]"
+          :match-data="matchData"
+          :stat-key="stat"
+          :chart-title="statTitles[stat]"
         />
       </div>
     </div>
@@ -18,7 +15,6 @@
 </template>
 
 <script setup>
-
 const props = defineProps({
   matchData: Object,
 });

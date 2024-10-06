@@ -1,89 +1,86 @@
 <template>
   <div class="match-summary">
     <div class="container">
-      <div class="summary-card">
+      <div
+        class="header"
+        style="display: flex; justify-content: center; align-items: center"
+      >
+        <h2 class="title">
+          Match Summary
+        </h2>
+      </div>
+      <p class="game-length">
+        Game Length: {{ formatDuration(match.duration) }}
+      </p>
+      <div class="teams-container">
         <div
-          class="header"
-          style="
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            margin-bottom: 1rem;
-          "
+          v-for="(team, index) in [match.blueTeam, match.redTeam]"
+          :key="team?.id"
+          :class="[
+            'team',
+            index === 0 ? 'blue-team' : 'red-team',
+            { winner: team?.win },
+          ]"
         >
-          <h2 class="title">
-            Match Summary
-          </h2>
-        </div>
-        <p class="game-length">
-          Game Length: {{ formatDuration(match.duration) }}
-        </p>
-        <div class="teams-container">
+          <h3 class="team-title">
+            {{ team?.name }}
+            <span v-if="team.win" class="winner-label"> (Winner) </span>
+          </h3>
           <div
-            v-for="(team, index) in [match.blueTeam, match.redTeam]"
-            :key="team?.id"
-            :class="[
-              'team',
-              index === 0 ? 'blue-team' : 'red-team',
-              { winner: team?.win },
-            ]"
+            v-for="player in team?.players"
+            :key="player?.summonerName"
+            class="player-card"
           >
-            <h3 class="team-title">
-              {{ team?.name }}
-              <span v-if="team.win" class="winner-label"> (Winner) </span>
-            </h3>
-            <div
-              v-for="player in team?.players"
-              :key="player?.summonerName"
-              class="player-card"
-            >
-              <div class="player-info">
+            <div class="player-info">
+              <NuxtImg
+                :src="`/img/champion/${player.champion}.png`"
+                :alt="player.champion"
+                class="champion-icon"
+                width="40"
+                height="40"
+                format="webp"
+              />
+              <span class="summoner-name">{{ player?.summonerName }}</span>
+              <span class="champion-name">{{ player?.champion }}</span>
+            </div>
+            <div class="player-stats">
+              <span class="kda">
+                {{ player.kills }}/{{ player?.deaths }}/{{ player.assists }}
+                <span class="cs">{{ player?.cs }} CS ({{
+                  ((player.cs / match.duration) * 60).toFixed(1)
+                }})</span>
+              </span>
+              <div class="items">
                 <NuxtImg
-                  :src="`/img/champion/${player.champion}.png`"
-                  :alt="player.champion"
-                  class="champion-icon"
-                  width="40"
-                  height="40"
+                  v-for="item in player.items || [0, 0, 0, 0, 0, 0]"
+                  :key="item"
+                  :src="`/img/item/${item}.png`"
+                  alt="Item"
+                  class="item-icon"
+                  style="border: 1px solid gray; border-radius: 0.125rem"
                   format="webp"
-                >
-                  <span class="summoner-name">{{ player?.summonerName }}</span>
-                  <span class="champion-name">{{ player?.champion }}</span>
-                </nuxtimg>
-              </div>
-              <div class="player-stats">
-                <span class="kda">
-                  {{ player.kills }}/{{ player?.deaths }}/{{ player.assists }}
-                  <span class="cs">{{ player?.cs }} CS ({{ ( player.cs / match.duration * 60 ).toFixed(1) }})</span> 
-                </span>
-                <div class="items">
-                  <NuxtImg
-                    v-for="item in player.items || [0, 0, 0, 0, 0, 0]"
-                    :key="item"
-                    :src="`/img/item/${item}.png`"
-                    alt="Item"
-                    class="item-icon"
-                    style="border: 1px solid gray; border-radius: 0.125rem"
-                    format="webp"
-                  />
-                </div>
+                />
               </div>
             </div>
           </div>
         </div>
       </div>
+      <TeamComparisonDashboard
+        v-if="match"
+        style="margin-top: 1rem"
+        :match-data="match"
+      />
     </div>
   </div>
 </template>
 
 <script setup>
-
 const props = defineProps({
   match: {
     type: Object,
     required: true,
   },
 });
-
 
 const formatDuration = (seconds) => {
   const minutes = Math.floor(seconds / 60);
@@ -95,7 +92,6 @@ const formatDuration = (seconds) => {
 <style scoped>
 .match-summary {
   background-color: #1c1c1c;
-  min-height: 100vh;
   padding: 1rem;
 }
 
