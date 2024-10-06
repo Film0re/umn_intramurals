@@ -8,7 +8,8 @@
 <style>
 
 .footer {
-  text-wrap:balance;
+  text-wrap:pretty;
+  text-align: center;
 }
 
 </style>
