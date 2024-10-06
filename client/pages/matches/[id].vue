@@ -1,7 +1,6 @@
 <template>
   <div class="full-height">
     <MatchCard v-if="formattedMatchData" :match="formattedMatchData" />
-    <TeamComparisonDashboard v-if="formattedMatchData" :matchData="formattedMatchData" />
   </div>
 </template>
 

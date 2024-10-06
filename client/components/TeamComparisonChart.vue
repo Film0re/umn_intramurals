@@ -60,9 +60,7 @@ const chartData = computed(() => {
   };
 });
 
-const formatNumber = (num) => {
-  return num.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
-};
+const formatNumber = (num) => num.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
 
 const chartOptions = computed(() => ({
   indexAxis: 'y',
@@ -90,7 +88,6 @@ const chartOptions = computed(() => ({
     datalabels: {
       anchor: 'end',
       align: 'right',
-      offset: 4,
       color: '#F0F0F0',
       font: {
         weight: 'bold',
