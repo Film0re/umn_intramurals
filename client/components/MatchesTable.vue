@@ -1,13 +1,13 @@
 <template>
   <DataTable
     v-if="!isPlayoffs"
-    :value="filteredMatches"
+    :value="matches.filter((match) => match.is_playoffs === isPlayoffs)"
     :paginator="true"
     :rows="10"
     :rows-per-page-options="[10, 25, 50]"
     row-group-mode="subheader"
     group-rows-by="week"
-    :sort-order="1"
+    sort-order="0"
   >
     <template #header>
       <div class="flex-center">
@@ -20,11 +20,13 @@
     </template>
 
     <template #groupheader="{ data }">
-      <span class="font-bold">Week {{ data.week }}</span>
+      <span class="font-bold">Week {{ data.week === "Unknown" ? "Unknown" : data.week }}</span>
     </template>
     <Column field="week" header="Week">
       <template #body="{ data }">
-        <span>{{ data.week }}</span>
+        <span>{{
+          data.week === "Unknown" ? "Week Unknown" : `Week ${data.week}`
+        }}</span>
       </template>
     </Column>
 
@@ -44,10 +46,11 @@
       <template #body="slotProps">
         <span
           :class="{
-            winner: slotProps.data.winner_team_id === slotProps.data.team1_id,
+            winner:
+              slotProps?.data?.winner_team_id === slotProps?.data?.team1_id,
           }"
         >
-          {{ slotProps.data.team1.name }}
+          {{ slotProps?.data?.team1?.name }}
         </span>
       </template>
     </Column>
@@ -55,18 +58,22 @@
       <template #body="slotProps">
         <span
           :class="{
-            winner: slotProps.data.winner_team_id === slotProps.data.team2_id,
+            winner:
+              slotProps?.data?.winner_team_id === slotProps?.data?.team2_id,
           }"
         >
-          {{ slotProps.data.team2.name }}
+          {{ slotProps?.data?.team2.name }}
         </span>
       </template>
     </Column>
   </DataTable>
-  <PlayoffMatchesTable v-else :matches="filteredMatches" />
+
+  <PlayoffMatchesTable v-else :matches="matches" />
 </template>
 
 <script setup>
+import Column from "primevue/column";
+
 const client = useSupabaseClient();
 const emit = defineEmits(["loaded"]);
 const season = useSeason();
@@ -129,27 +136,6 @@ const { data: matches } = useAsyncData("matches", getMatches, {
   watch: [season],
 });
 emit("loaded");
-const filteredMatches = computed(() => {
-  if (!matches.value) return [];
-
-  return matches.value
-    .filter((match) => !match.is_playoffs)
-    .filter((match) => {
-      if (props.teamId) {
-        return (
-          match.team1_id === props.teamId || match.team2_id === props.teamId
-        );
-      }
-      return (
-        match.team1.season === season.value ||
-        match.team2.season === season.value
-      );
-    })
-    .map((match) => ({
-      ...match,
-      week: match.week ?? "Unknown",
-    }));
-});
 </script>
 
 <style scoped>
