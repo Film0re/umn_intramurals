@@ -16,9 +16,14 @@
           <!-- <Column field="rank" header="Rank" :sortable="false" /> -->
           <Column field="name" header="Team">
             <template #body="slotProps">
-              <span>
+              <NuxtLink
+                :to="{
+                  name: 'team-id',
+                  params: { id: slotProps.data.team_id },
+                }"
+              >
                 {{ slotProps.data.name }} 
-              </span>
+              </NuxtLink>
 
               <span v-if="slotProps.data.rank === 1" class="winner">
                 🏆
