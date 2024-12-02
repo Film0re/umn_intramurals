@@ -24,7 +24,7 @@
   },
   "dependencies": {
     "@mdi/font": "^7.4.47",
-    "@supabase/supabase-js": "^2.39.8",
+    "@supabase/supabase-js": "^2.46.2",
     "@vueuse/core": "^10.9.0",
     "@vueuse/nuxt": "^10.9.0",
     "chart.js": "^4.4.4",
